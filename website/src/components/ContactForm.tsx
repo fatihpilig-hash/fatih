@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/site-config";
@@ -9,31 +9,49 @@ import { siteConfig } from "@/lib/site-config";
 const inputClasses =
   "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") ?? "");
-    const company = String(form.get("company") ?? "");
-    const email = String(form.get("email") ?? "");
-    const message = String(form.get("message") ?? "");
+    const form = event.currentTarget;
+    const data = new FormData(form);
 
-    const subject = `Erstgespräch-Anfrage von ${name || "Website"}`;
-    const body = [
-      `Name: ${name}`,
-      `Unternehmen: ${company}`,
-      `E-Mail: ${email}`,
-      "",
-      message,
-    ].join("\n");
+    setStatus("loading");
+    setErrorMessage("");
 
-    window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          company: data.get("company"),
+          email: data.get("email"),
+          message: data.get("message"),
+          website: data.get("website"),
+        }),
+      });
 
-    setSent(true);
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "Nachricht konnte nicht gesendet werden.");
+      }
+
+      setStatus("success");
+      form.reset();
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Nachricht konnte nicht gesendet werden."
+      );
+    }
   }
 
   return (
@@ -77,17 +95,36 @@ export function ContactForm() {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
           className="flex flex-col gap-5 rounded-3xl border border-border bg-background-alt p-8"
         >
-          {sent && (
+          {status === "success" && (
             <p
               role="status"
               className="rounded-xl bg-accent-soft px-4 py-3 text-sm font-medium text-accent"
             >
-              Dein E-Mail-Programm öffnet sich mit deiner Anfrage – vielen
-              Dank!
+              Danke für deine Anfrage! Wir melden uns innerhalb von 1–2
+              Werktagen bei dir.
             </p>
           )}
+          {status === "error" && (
+            <p
+              role="alert"
+              className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+            >
+              {errorMessage}
+            </p>
+          )}
+
+          {/* Honeypot field: hidden from real users, left empty by them. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden="true"
+          />
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
@@ -150,10 +187,20 @@ export function ContactForm() {
 
           <button
             type="submit"
-            className="mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            disabled={status === "loading"}
+            className="mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Anfrage senden
-            <Send className="h-4 w-4" />
+            {status === "loading" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Wird gesendet …
+              </>
+            ) : (
+              <>
+                Anfrage senden
+                <Send className="h-4 w-4" />
+              </>
+            )}
           </button>
         </form>
       </Container>
