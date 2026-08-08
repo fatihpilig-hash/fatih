@@ -19,12 +19,11 @@ per Route Handler unter `src/app/api/contact/route.ts`.
 1. `.env.local.example` nach `.env.local` kopieren
 2. Bei [resend.com](https://resend.com) einen API-Key erstellen und als
    `RESEND_API_KEY` eintragen
-3. `CONTACT_TO_EMAIL` auf die Zieladresse für Anfragen setzen
-4. Für den Produktivbetrieb: eigene Domain (`plg-media.de`) in Resend
-   verifizieren und `CONTACT_FROM_EMAIL` entsprechend anpassen — ohne
-   verifizierte Domain funktioniert nur der Resend-Sandbox-Absender
-   `onboarding@resend.dev`, und E-Mails kommen ausschließlich beim
-   eigenen Resend-Account-Postfach an
+3. `CONTACT_TO_EMAIL` auf die Zieladresse für Anfragen setzen (z. B.
+   `info@plgmedia.de`)
+4. `CONTACT_FROM_EMAIL` auf eine Adresse der eigenen Domain setzen (z. B.
+   `info@plgmedia.de`) — **`plgmedia.de` ist in Resend bereits
+   verifiziert**, dafür reicht jede Adresse auf dieser Domain
 
 Ohne gesetzte Umgebungsvariablen antwortet die Route mit `503` und einer
 verständlichen Fehlermeldung im Formular, statt fehlzuschlagen.
