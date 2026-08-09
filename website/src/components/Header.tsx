@@ -15,10 +15,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur-md">
-      <Container className="flex h-20 items-center justify-between py-4">
+      <Container className="flex items-center justify-between py-3">
         <Logo
           variant="schwarz"
-          className="h-10 w-auto sm:h-12"
+          className="h-14 w-auto"
           priority
           onClick={() => setOpen(false)}
         />
