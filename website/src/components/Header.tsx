@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
@@ -9,6 +10,8 @@ import { siteConfig } from "@/lib/site-config";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const homePrefix = pathname === "/" ? "" : "/";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur-md">
@@ -24,7 +27,7 @@ export function Header() {
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
-              href={item.href}
+              href={`${homePrefix}${item.href}`}
               className="text-sm font-medium text-foreground/80 transition-colors hover:text-accent"
             >
               {item.label}
@@ -33,7 +36,7 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <LinkButton href="#kontakt" size="md">
+          <LinkButton href={`${homePrefix}#kontakt`} size="md">
             Kostenloses Erstgespräch
             <ArrowUpRight className="h-4 w-4" />
           </LinkButton>
@@ -56,14 +59,14 @@ export function Header() {
             {siteConfig.nav.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
+                href={`${homePrefix}${item.href}`}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-3 text-base font-medium text-foreground hover:bg-background-alt"
               >
                 {item.label}
               </a>
             ))}
-            <LinkButton href="#kontakt" size="md" className="mt-3 w-full">
+            <LinkButton href={`${homePrefix}#kontakt`} size="md" className="mt-3 w-full">
               Kostenloses Erstgespräch
               <ArrowUpRight className="h-4 w-4" />
             </LinkButton>

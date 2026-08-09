@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import {
@@ -32,6 +36,9 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  const homePrefix = pathname === "/" ? "" : "/";
+
   return (
     <footer className="border-t border-border bg-background-alt">
       <Container className="flex flex-col gap-10 py-14">
@@ -62,7 +69,7 @@ export function Footer() {
             {siteConfig.nav.map((item) => (
               <a
                 key={item.href}
-                href={item.href}
+                href={`${homePrefix}${item.href}`}
                 className="text-foreground/70 hover:text-accent"
               >
                 {item.label}
@@ -89,12 +96,12 @@ export function Footer() {
             vorbehalten.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-accent">
+            <Link href="/impressum" className="hover:text-accent">
               Impressum
-            </a>
-            <a href="#" className="hover:text-accent">
+            </Link>
+            <Link href="/datenschutz" className="hover:text-accent">
               Datenschutz
-            </a>
+            </Link>
           </div>
         </div>
       </Container>

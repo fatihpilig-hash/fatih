@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -12,6 +13,9 @@ const inputClasses =
 const FRIENDLY_FALLBACK_ERROR =
   "Eure Nachricht konnte nicht gesendet werden. Bitte versucht es später erneut oder schreibt uns direkt an info@plgmedia.de.";
 
+const PRIVACY_REQUIRED_ERROR =
+  "Bitte bestätigt, dass ihr die Datenschutzerklärung gelesen habt.";
+
 type Status = "idle" | "loading" | "success" | "error";
 
 export function ContactForm() {
@@ -22,6 +26,12 @@ export function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
+
+    if (!data.get("privacy")) {
+      setStatus("error");
+      setErrorMessage(PRIVACY_REQUIRED_ERROR);
+      return;
+    }
 
     setStatus("loading");
     setErrorMessage("");
@@ -205,6 +215,32 @@ export function ContactForm() {
               placeholder="Erzählt uns kurz von eurem Unternehmen und euren Zielen."
               className={`${inputClasses} resize-none`}
             />
+          </div>
+
+          <div className="flex items-start gap-3">
+            <input
+              id="privacy"
+              name="privacy"
+              type="checkbox"
+              required
+              className="mt-1 h-4 w-4 shrink-0 cursor-pointer rounded border-border text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            />
+            <label
+              htmlFor="privacy"
+              className="text-sm leading-relaxed text-foreground/80"
+            >
+              Ich habe die{" "}
+              <Link
+                href="/datenschutz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent underline underline-offset-2 hover:text-accent-hover"
+              >
+                Datenschutzerklärung
+              </Link>{" "}
+              gelesen und stimme der Verarbeitung meiner Daten gemäß dieser
+              zu.
+            </label>
           </div>
 
           <button

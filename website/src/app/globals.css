@@ -69,3 +69,21 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Legal page body copy (Impressum, Datenschutz): plain semantic HTML
+   styled here so the page files can stay pure content. */
+.legal-content h2 {
+  @apply mt-10 text-xl font-bold tracking-tight text-foreground first:mt-0;
+}
+
+.legal-content p {
+  @apply mt-4 text-base leading-relaxed text-foreground/80;
+}
+
+.legal-content ul {
+  @apply mt-4 list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/80;
+}
+
+.legal-content a {
+  @apply text-accent underline underline-offset-2 hover:text-accent-hover;
+}
