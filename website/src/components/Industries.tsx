@@ -1,12 +1,11 @@
-import { HardHat, Sparkles, Factory, Hammer, Briefcase } from "lucide-react";
+import { HardHat, Factory, Hammer, Building2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 const industries = [
   { icon: HardHat, label: "Bauunternehmen" },
-  { icon: Sparkles, label: "Gebäudereinigung" },
   { icon: Factory, label: "Industrieunternehmen" },
   { icon: Hammer, label: "Handwerksbetriebe" },
-  { icon: Briefcase, label: "Dienstleistungsunternehmen" },
+  { icon: Building2, label: "Immobilienunternehmen" },
 ];
 
 export function Industries() {
@@ -16,7 +15,7 @@ export function Industries() {
         <p className="mb-8 text-center text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Vertrauen von B2B-Unternehmen aus diesen Branchen
         </p>
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
           {industries.map(({ icon: Icon, label }) => (
             <div
               key={label}

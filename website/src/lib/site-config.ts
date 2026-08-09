@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "PLG Media",
   shortName: "PLG",
   tagline: "Marketing für B2B-Unternehmen",
-  phone: "+49 30 1234 5678",
+  phone: "+49 176 46103320",
   email: "info@plgmedia.de",
   nav: [
     { label: "Leistungen", href: "#leistungen" },

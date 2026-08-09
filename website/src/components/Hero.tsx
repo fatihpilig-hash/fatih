@@ -51,7 +51,7 @@ export function Hero() {
           <div className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Spezialisiert auf B2B & Handwerk
+              Spezialisiert auf B2B
             </span>
             <span className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -72,7 +72,7 @@ export function Hero() {
                   Digitales Wachstum
                 </p>
                 <p className="mt-1 text-2xl font-bold text-primary-foreground">
-                  Für dein Unternehmen
+                  Für euer Unternehmen
                 </p>
               </div>
 

@@ -1,17 +1,34 @@
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import {
   InstagramIcon,
   LinkedinIcon,
   FacebookIcon,
+  TiktokIcon,
 } from "@/components/ui/SocialIcons";
 import { siteConfig } from "@/lib/site-config";
 
 const socials = [
-  { icon: InstagramIcon, label: "Instagram", href: "#" },
-  { icon: LinkedinIcon, label: "LinkedIn", href: "#" },
-  { icon: FacebookIcon, label: "Facebook", href: "#" },
+  {
+    icon: InstagramIcon,
+    label: "Instagram",
+    href: "https://www.instagram.com/plg_media",
+  },
+  {
+    icon: FacebookIcon,
+    label: "Facebook",
+    href: "https://www.facebook.com/plgmedia1",
+  },
+  {
+    icon: LinkedinIcon,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/fatihpilig/",
+  },
+  {
+    icon: TiktokIcon,
+    label: "TikTok",
+    href: "https://www.tiktok.com/@plg_media",
+  },
 ];
 
 export function Footer() {
@@ -20,22 +37,18 @@ export function Footer() {
       <Container className="flex flex-col gap-10 py-14">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex max-w-sm flex-col gap-4">
-            <Link
-              href="#top"
-              className="flex items-center gap-3 font-serif text-lg font-bold text-foreground"
-            >
-              <Logo className="h-10 w-10" />
-              {siteConfig.name}
-            </Link>
+            <Logo variant="schwarz" className="h-9 w-auto" />
             <p className="text-sm leading-relaxed text-muted-foreground">
               {siteConfig.tagline} für Bauunternehmen, Handwerksbetriebe,
-              Gebäudereiniger, Industrie- und Dienstleistungsunternehmen.
+              Industrie- und Immobilienunternehmen.
             </p>
             <div className="flex items-center gap-3">
               {socials.map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground/70 transition-colors hover:border-accent hover:text-accent"
                 >

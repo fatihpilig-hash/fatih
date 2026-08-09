@@ -11,9 +11,9 @@ const reasons = [
   },
   {
     icon: Handshake,
-    title: "Spezialisiert auf B2B & Handwerk",
+    title: "Spezialisiert auf B2B",
     description:
-      "Wir kennen die Herausforderungen von Bau-, Reinigungs- und Industrieunternehmen und sprechen die Sprache deiner Branche.",
+      "Wir kennen die Herausforderungen von Bau-, Immobilien- und Industrieunternehmen und sprechen die Sprache eurer Branche.",
   },
   {
     icon: Gauge,

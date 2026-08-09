@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
@@ -14,14 +13,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between py-4">
-        <Link
-          href="#top"
-          className="flex items-center gap-3 text-lg font-bold tracking-tight text-foreground font-serif"
+        <Logo
+          variant="schwarz"
+          className="h-10 w-auto sm:h-12"
+          priority
           onClick={() => setOpen(false)}
-        >
-          <Logo className="h-11 w-11" />
-          {siteConfig.name}
-        </Link>
+        />
 
         <nav className="hidden items-center gap-8 lg:flex">
           {siteConfig.nav.map((item) => (

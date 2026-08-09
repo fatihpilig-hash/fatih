@@ -25,13 +25,14 @@ export async function POST(request: NextRequest) {
   }
 
   const name = sanitize(body.name);
-  const company = sanitize(body.company);
   const email = sanitize(body.email);
+  const phone = sanitize(body.phone);
+  const company = sanitize(body.company);
   const message = sanitize(body.message);
 
-  if (!name || !email || !message) {
+  if (!name || !email || !phone || !message) {
     return NextResponse.json(
-      { error: "Bitte Name, E-Mail und Nachricht ausfüllen." },
+      { error: "Bitte Name, E-Mail, Telefonnummer und Nachricht ausfüllen." },
       { status: 400 }
     );
   }
@@ -65,8 +66,9 @@ export async function POST(request: NextRequest) {
     subject: `Erstgespräch-Anfrage von ${name}${company ? ` (${company})` : ""}`,
     text: [
       `Name: ${name}`,
-      `Unternehmen: ${company || "-"}`,
       `E-Mail: ${email}`,
+      `Telefon: ${phone}`,
+      `Unternehmen: ${company || "-"}`,
       "",
       message,
     ].join("\n"),

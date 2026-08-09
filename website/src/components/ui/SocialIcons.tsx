@@ -29,3 +29,20 @@ export function FacebookIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function TiktokIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} {...props}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M14 3v10.8a3.2 3.2 0 1 1-2.4-3.1"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M14 3c.3 2.3 2 4 4.3 4.2"
+      />
+    </svg>
+  );
+}

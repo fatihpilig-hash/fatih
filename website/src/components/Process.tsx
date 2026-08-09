@@ -8,7 +8,7 @@ const steps = [
     step: "01",
     title: "Analyse",
     description:
-      "Wir verschaffen uns ein klares Bild von deinem Unternehmen, deiner Zielgruppe und deinem Wettbewerb.",
+      "Wir verschaffen uns ein klares Bild von eurem Unternehmen, eurer Zielgruppe und eurem Wettbewerb.",
   },
   {
     icon: Compass,

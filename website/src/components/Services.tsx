@@ -28,7 +28,7 @@ const services = [
     icon: Camera,
     title: "Content-Produktion",
     description:
-      "Hochwertiges Bild- und Videomaterial, das dein Unternehmen authentisch zeigt.",
+      "Hochwertiges Bild- und Videomaterial, das euer Unternehmen authentisch zeigt.",
     points: [
       "Professionelle Fotos",
       "Imagevideos",
@@ -74,17 +74,6 @@ const services = [
     ],
   },
   {
-    icon: Target,
-    title: "Leadgenerierung",
-    description: "Planbar mehr qualifizierte Anfragen für dein Unternehmen.",
-    points: [
-      "Mehr Anfragen",
-      "Mehr Kunden",
-      "Qualifizierte Leads",
-      "Funnel & Landingpages",
-    ],
-  },
-  {
     icon: UserPlus,
     title: "Recruiting",
     description:
@@ -93,6 +82,17 @@ const services = [
       "Mitarbeitergewinnung über Social Media",
       "Bewerberkampagnen",
       "Optimierte Bewerbungsprozesse",
+    ],
+  },
+  {
+    icon: Target,
+    title: "Leadgenerierung",
+    description: "Planbar mehr qualifizierte Anfragen für euer Unternehmen.",
+    points: [
+      "Mehr Anfragen",
+      "Mehr Kunden",
+      "Qualifizierte Leads",
+      "Funnel & Landingpages",
     ],
   },
 ];

@@ -1,13 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/lib/site-config";
 
 const inputClasses =
   "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+const FRIENDLY_FALLBACK_ERROR =
+  "Eure Nachricht konnte nicht gesendet werden. Bitte versucht es später erneut oder schreibt uns direkt an info@plgmedia.de.";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -29,8 +32,9 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.get("name"),
-          company: data.get("company"),
           email: data.get("email"),
+          phone: data.get("phone"),
+          company: data.get("company"),
           message: data.get("message"),
           website: data.get("website"),
         }),
@@ -39,18 +43,18 @@ export function ContactForm() {
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(result.error || "Nachricht konnte nicht gesendet werden.");
+        setStatus("error");
+        setErrorMessage(
+          typeof result.error === "string" ? result.error : FRIENDLY_FALLBACK_ERROR
+        );
+        return;
       }
 
       setStatus("success");
       form.reset();
-    } catch (error) {
+    } catch {
       setStatus("error");
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Nachricht konnte nicht gesendet werden."
-      );
+      setErrorMessage(FRIENDLY_FALLBACK_ERROR);
     }
   }
 
@@ -61,8 +65,8 @@ export function ContactForm() {
           <SectionHeading
             align="left"
             eyebrow="Kontakt"
-            title="Lass uns über euer Wachstum sprechen"
-            description="Erzähl uns kurz von deinem Unternehmen – wir melden uns innerhalb von 1–2 Werktagen für ein kostenloses Erstgespräch."
+            title="Lasst uns über euer Wachstum sprechen"
+            description="Erzählt uns kurz von eurem Unternehmen – wir melden uns innerhalb von 1–2 Werktagen für ein kostenloses Erstgespräch."
           />
 
           <div className="flex flex-col gap-5 text-sm">
@@ -101,17 +105,19 @@ export function ContactForm() {
           {status === "success" && (
             <p
               role="status"
-              className="rounded-xl bg-accent-soft px-4 py-3 text-sm font-medium text-accent"
+              className="flex items-start gap-3 rounded-xl bg-accent-soft px-4 py-3 text-sm font-medium text-accent"
             >
-              Danke für deine Anfrage! Wir melden uns innerhalb von 1–2
-              Werktagen bei dir.
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
+              Danke für eure Anfrage! Wir melden uns innerhalb von 1–2
+              Werktagen bei euch.
             </p>
           )}
           {status === "error" && (
             <p
               role="alert"
-              className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+              className="flex items-start gap-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
             >
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
               {errorMessage}
             </p>
           )}
@@ -142,6 +148,37 @@ export function ContactForm() {
               />
             </div>
             <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
+                E-Mail
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="max@unternehmen.de"
+                className={inputClasses}
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="phone" className="text-sm font-medium text-foreground">
+                Telefonnummer
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                autoComplete="tel"
+                placeholder="+49 176 12345678"
+                className={inputClasses}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
               <label htmlFor="company" className="text-sm font-medium text-foreground">
                 Unternehmen
               </label>
@@ -157,21 +194,6 @@ export function ContactForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-medium text-foreground">
-              E-Mail
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="max@unternehmen.de"
-              className={inputClasses}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
             <label htmlFor="message" className="text-sm font-medium text-foreground">
               Nachricht
             </label>
@@ -180,7 +202,7 @@ export function ContactForm() {
               name="message"
               rows={4}
               required
-              placeholder="Erzähl uns kurz von deinem Unternehmen und deinen Zielen."
+              placeholder="Erzählt uns kurz von eurem Unternehmen und euren Zielen."
               className={`${inputClasses} resize-none`}
             />
           </div>
