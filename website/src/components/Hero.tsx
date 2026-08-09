@@ -30,11 +30,11 @@ export function Hero() {
           </h1>
 
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Wir helfen Bauunternehmen, Handwerksbetrieben, Gebäudereinigern
-            und Dienstleistern durch Social Media, moderne Websites,
-            KI-Automatisierung und bezahlte Werbeanzeigen zu planbarem
-            digitalen Wachstum – professionell, ergebnisorientiert und aus
-            einer Hand.
+            Wir helfen Unternehmen dabei, mehr Neukunden zu gewinnen,
+            qualifizierte Mitarbeiter zu finden und ihre Reichweite zu
+            steigern – mit Social Media, modernen Websites,
+            KI-Automatisierung und gezielten Werbeanzeigen. Professionell,
+            ergebnisorientiert und aus einer Hand.
           </p>
 
           <div className="flex flex-col gap-4 sm:flex-row">
