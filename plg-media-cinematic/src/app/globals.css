@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --color-paper: #faf9f7;
+  --color-ink: #0c0b0a;
+  --color-anthracite: #1c1a18;
+  --color-anthracite-soft: #2a2724;
+  --color-warm-gray: #a39c92;
+  --color-warm-gray-light: #d9d4cc;
+  --color-line: rgba(12, 11, 10, 0.12);
+  --color-line-inverse: rgba(250, 249, 247, 0.16);
+}
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-anthracite: var(--color-anthracite);
+  --color-anthracite-soft: var(--color-anthracite-soft);
+  --color-warm-gray: var(--color-warm-gray);
+  --color-warm-gray-light: var(--color-warm-gray-light);
+  --color-line: var(--color-line);
+  --color-line-inverse: var(--color-line-inverse);
+  --font-display: var(--font-bodoni);
+  --font-sans: var(--font-schibsted);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-paper);
+}
+
+html.lenis {
+  height: auto;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.font-display {
+  font-family: var(--font-bodoni), Georgia, serif;
+}
+
+/* Fine film-grain overlay used on dark sections for texture */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+  z-index: 1;
+}
+
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.container-edge {
+  padding-left: clamp(1.25rem, 5vw, 5rem);
+  padding-right: clamp(1.25rem, 5vw, 5rem);
+}
