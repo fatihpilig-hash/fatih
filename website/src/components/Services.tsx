@@ -13,6 +13,17 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const services = [
   {
+    icon: Target,
+    title: "Leadgenerierung",
+    description: "Planbar mehr qualifizierte Anfragen für euer Unternehmen.",
+    points: [
+      "Mehr Anfragen",
+      "Mehr Kunden",
+      "Qualifizierte Leads",
+      "Funnel & Landingpages",
+    ],
+  },
+  {
     icon: Smartphone,
     title: "Social Media Management",
     description:
@@ -34,7 +45,6 @@ const services = [
       "Imagevideos",
       "Reels",
       "Drohnenaufnahmen",
-      "Baustellen- & Unternehmenscontent",
     ],
   },
   {
@@ -82,17 +92,6 @@ const services = [
       "Mitarbeitergewinnung über Social Media",
       "Bewerberkampagnen",
       "Optimierte Bewerbungsprozesse",
-    ],
-  },
-  {
-    icon: Target,
-    title: "Leadgenerierung",
-    description: "Planbar mehr qualifizierte Anfragen für euer Unternehmen.",
-    points: [
-      "Mehr Anfragen",
-      "Mehr Kunden",
-      "Qualifizierte Leads",
-      "Funnel & Landingpages",
     ],
   },
 ];
