@@ -8,6 +8,7 @@ export const siteConfig = {
     { label: "Leistungen", href: "#leistungen" },
     { label: "Ablauf", href: "#ablauf" },
     { label: "Warum wir", href: "#warum-wir" },
+    { label: "Bewertungen", href: "#bewertungen" },
     { label: "Kontakt", href: "#kontakt" },
   ],
 };
