@@ -9,33 +9,52 @@ export const nav = [
 export const services = [
   {
     index: "01",
-    title: "Meta Ads — Kundengewinnung",
+    title: "Social Media Management",
     description:
-      "Kampagnen, die nicht nach Werbung aussehen, sondern nach Vertrauen. Wir bringen qualifizierte Anfragen direkt in Ihren Kalender — planbar, skalierbar, messbar.",
+      "Content-Strategie, Reels und Community-Aufbau auf Instagram, TikTok, LinkedIn & Facebook — durchdacht geplant, konsequent betreut.",
+    tags: ["Content-Strategie", "Reels & Kurzvideos", "Posting & Betreuung", "Community-Aufbau"],
   },
   {
     index: "02",
-    title: "Meta Ads — Recruiting",
+    title: "Content-Produktion",
     description:
-      "Fachkräfte finden Sie nicht mehr über Inserate, sondern über Reichweite. Wir positionieren Ihr Unternehmen als Arbeitgeber, den man sich merkt.",
+      "Fotos, Imagevideos, Reels und Drohnenaufnahmen — produziert, um Ihre Arbeit so aussehen zu lassen, wie sie ist: exzellent.",
+    tags: ["Professionelle Fotos", "Imagevideos", "Reels", "Drohnenaufnahmen"],
   },
   {
     index: "03",
-    title: "Social Media Management",
+    title: "Websites",
     description:
-      "Content, der Ihre Marke sichtbar macht und ernst nimmt. Von Redaktionsplan bis Produktion — konsequent, hochwertig, ohne Leerlauf.",
+      "Moderne Unternehmenswebsites und Landingpages, konsequent auf Conversion gebaut — inklusive Kontaktformular und Terminbuchung.",
+    tags: ["Unternehmenswebsites", "Landingpages", "Conversion-Optimierung", "Terminbuchung"],
   },
   {
     index: "04",
     title: "KI-Automatisierungen",
     description:
-      "Anfragen, Angebote, Nachfassen — automatisiert, ohne dass es sich automatisiert anfühlt. Wir bauen Systeme, die für Sie arbeiten, während Sie auf der Baustelle sind.",
+      "Automatische Lead-Erfassung, KI-gestützte Kundenkommunikation und digitale Workflows — Prozesse, die laufen, ohne dass Sie eingreifen müssen.",
+    tags: ["Lead-Erfassung", "KI-Kommunikation", "Automatisierte Prozesse", "Digitale Workflows"],
   },
   {
     index: "05",
-    title: "Website-Erstellung",
+    title: "Werbeanzeigen",
     description:
-      "Eine Webseite, die verkauft statt nur zu existieren. Klar, schnell, auf Anfragen ausgelegt — das digitale Aushängeschild für Ihr Unternehmen.",
+      "Meta Ads für Leadgenerierung, Recruiting und Reichweite — datengetrieben gesteuert, nicht nach Bauchgefühl.",
+    tags: ["Meta Ads", "Leadgenerierung", "Recruiting-Kampagnen", "Reichweitenkampagnen"],
+  },
+  {
+    index: "06",
+    title: "Leadgenerierung",
+    description:
+      "Funnel und Landingpages, die aus Reichweite qualifizierte Anfragen machen — mehr Kunden, planbar.",
+    tags: ["Mehr Anfragen", "Mehr Kunden", "Qualifizierte Leads", "Funnel & Landingpages"],
+  },
+  {
+    index: "07",
+    title: "Recruiting",
+    description:
+      "Mitarbeitergewinnung über Social Media: Bewerberkampagnen und optimierte Bewerbungsprozesse, die Fachkräfte tatsächlich erreichen.",
+    tags: ["Mitarbeitergewinnung", "Bewerberkampagnen", "Bewerbungsprozesse"],
   },
 ];
 
@@ -66,38 +85,49 @@ export const process = [
   },
 ];
 
+// Generated placeholder visuals (AI-generated, no real client photography yet).
+// Swap these for real project photography/video stills when available.
+export const heroImage =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_676cf909-e013-46c4-9898-8efcd17e0589.png";
+
 export const work = [
   {
     index: "01",
     title: "Fassadenbau Nord",
     category: "Bauunternehmen · Meta Ads & Recruiting",
     result: "Von 3 auf 14 qualifizierte Bewerbungen pro Monat",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_46c0c4b6-a330-46c2-98b8-280bf13d2b51.png",
   },
   {
     index: "02",
     title: "Reinraum Facility Services",
     category: "Gebäudereinigung · Social Media & Automatisierung",
     result: "Anfragebearbeitung von 48 Std. auf unter 10 Minuten",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_6fc8c4c8-d6f8-4f9b-8876-6729f99f609c.png",
   },
   {
     index: "03",
     title: "Stahlwerk Ellinger",
     category: "Bauunternehmen · Website & Content-Produktion",
     result: "Neue Markenpräsenz, dreifach höhere Verweildauer",
+    image:
+      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_1707a743-b0d6-4671-a249-b090079f00c0.png",
   },
 ];
 
 export const stats = [
-  { value: 40, suffix: "+", label: "Marken begleitet" },
-  { value: 3, suffix: "x", label: "durchschnittliches Anfragewachstum" },
-  { value: 10, suffix: " Min.", label: "durchschnittliche Reaktionszeit" },
-  { value: 98, suffix: "%", label: "Weiterempfehlungsquote" },
+  { value: 344, decimals: 0, suffix: "", label: "TikTok Kurzvideos produziert" },
+  { value: 16.8, decimals: 1, suffix: " Mio.", label: "Aufrufe auf TikTok" },
+  { value: 347, decimals: 0, suffix: "", label: "Instagram Kurzvideos produziert" },
+  { value: 16.4, decimals: 1, suffix: " Mio.", label: "Aufrufe auf Instagram" },
 ];
 
 export const philosophy = {
-  eyebrow: "Über PLG Media",
+  eyebrow: "Unser Ziel",
   headline: "Wir bauen keine Kampagnen. Wir bauen Sichtbarkeit, die bleibt.",
-  body: "PLG Media wurde für Unternehmen gegründet, die im Verborgenen exzellent arbeiten — und digital unsichtbar bleiben. Wir übersetzen handwerkliche und operative Stärke in eine Markenpräsenz, die Vertrauen schafft, bevor das erste Gespräch stattfindet. Kein Agentur-Jargon. Keine Standardpakete. Nur Arbeit, die sich messen lässt.",
+  body: "Unternehmen durch Social Media, Websites, KI-Automatisierung und bezahlte Werbung mehr Sichtbarkeit, mehr qualifizierte Anfragen, mehr Mitarbeiter und langfristiges Wachstum zu ermöglichen — mit einem modernen, professionellen und ergebnisorientierten Ansatz.",
 };
 
 export const contact = {

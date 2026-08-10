@@ -23,7 +23,7 @@ export default function Services() {
           </RevealText>
           <Reveal>
             <p className="max-w-sm text-sm text-white/60 sm:text-base">
-              Fünf Disziplinen, ein System. Jede Leistung steht für sich —
+              Sieben Disziplinen, ein System. Jede Leistung steht für sich —
               gemeinsam ergeben sie eine Marke, die konstant sichtbar ist.
             </p>
           </Reveal>
@@ -39,9 +39,14 @@ export default function Services() {
                 <h3 className="font-display text-2xl text-white transition-transform duration-500 group-hover:translate-x-2 sm:col-span-5 sm:text-3xl lg:text-4xl">
                   {service.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-white/55 sm:col-span-5 sm:text-base">
-                  {service.description}
-                </p>
+                <div className="sm:col-span-5">
+                  <p className="text-sm leading-relaxed text-white/55 sm:text-base">
+                    {service.description}
+                  </p>
+                  <p className="mt-3 text-xs uppercase tracking-[0.1em] text-white/30">
+                    {service.tags.join(" · ")}
+                  </p>
+                </div>
                 <span className="hidden text-white/30 transition-all duration-500 group-hover:translate-x-2 group-hover:text-white sm:col-span-1 sm:block sm:text-right">
                   →
                 </span>

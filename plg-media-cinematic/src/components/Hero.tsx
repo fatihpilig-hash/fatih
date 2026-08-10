@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import RevealText from "@/components/RevealText";
 import SmoothLink from "@/components/SmoothLink";
+import { heroImage } from "@/lib/site-config";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -62,14 +63,19 @@ export default function Hero() {
           ref={visualRef}
           className="grain relative h-full w-full overflow-hidden rounded-[28px] bg-anthracite"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={heroImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(120% 90% at 50% 0%, #3a3530 0%, #201d1a 45%, #0c0b0a 100%)",
+                "linear-gradient(180deg, rgba(12,11,10,0.55) 0%, rgba(12,11,10,0.72) 55%, rgba(12,11,10,0.9) 100%)",
             }}
           />
-          <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:64px_64px]" />
 
           {/* glass navbar spacer content lives in Navbar component, positioned globally */}
 

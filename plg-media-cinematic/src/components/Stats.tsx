@@ -18,10 +18,18 @@ export default function Stats() {
     ).matches;
 
     const numbers = section.querySelectorAll<HTMLElement>("[data-stat-value]");
+    const format = (value: number, decimals: number, suffix: string) =>
+      `${value.toLocaleString("de-DE", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}${suffix}`;
 
     if (prefersReduced) {
       numbers.forEach((el) => {
-        el.textContent = `${el.dataset.statValue}${el.dataset.statSuffix ?? ""}`;
+        const target = Number(el.dataset.statValue ?? 0);
+        const decimals = Number(el.dataset.statDecimals ?? 0);
+        const suffix = el.dataset.statSuffix ?? "";
+        el.textContent = format(target, decimals, suffix);
       });
       return;
     }
@@ -29,6 +37,7 @@ export default function Stats() {
     const ctx = gsap.context(() => {
       numbers.forEach((el) => {
         const target = Number(el.dataset.statValue ?? 0);
+        const decimals = Number(el.dataset.statDecimals ?? 0);
         const suffix = el.dataset.statSuffix ?? "";
         const counter = { value: 0 };
 
@@ -42,7 +51,7 @@ export default function Stats() {
               duration: 1.6,
               ease: "power2.out",
               onUpdate: () => {
-                el.textContent = `${Math.round(counter.value)}${suffix}`;
+                el.textContent = format(counter.value, decimals, suffix);
               },
             }),
         });
@@ -63,6 +72,7 @@ export default function Stats() {
             <p className="font-display text-[15vw] font-medium leading-none text-white sm:text-[7vw] lg:text-[4vw]">
               <span
                 data-stat-value={stat.value}
+                data-stat-decimals={stat.decimals}
                 data-stat-suffix={stat.suffix}
               >
                 0{stat.suffix}
