@@ -15,6 +15,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const dark = scrolled || open;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
@@ -29,11 +31,13 @@ export default function Navbar() {
               : "border-transparent bg-transparent px-2 py-2"
           }`}
         >
-          <SmoothLink
-            href="#top"
-            className="font-display text-lg tracking-wide text-ink"
-          >
-            PLG&nbsp;<span className="italic">Media</span>
+          <SmoothLink href="#top" aria-label="PLG Media — Startseite">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={dark ? "/brand/plg-logo-black.png" : "/brand/plg-logo-white.png"}
+              alt="PLG Media"
+              className="h-10 w-10 transition-opacity duration-500 sm:h-11 sm:w-11"
+            />
           </SmoothLink>
 
           <ul className="hidden items-center gap-8 md:flex">
@@ -41,7 +45,11 @@ export default function Navbar() {
               <li key={item.href}>
                 <SmoothLink
                   href={item.href}
-                  className="text-sm font-medium text-ink/70 transition-colors duration-300 hover:text-ink"
+                  className={`text-sm font-medium transition-colors duration-300 ${
+                    scrolled
+                      ? "text-ink/70 hover:text-ink"
+                      : "text-white/75 hover:text-white"
+                  }`}
                 >
                   {item.label}
                 </SmoothLink>
@@ -51,7 +59,9 @@ export default function Navbar() {
 
           <SmoothLink
             href="#kontakt"
-            className="hidden rounded-full bg-ink px-5 py-2 text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.03] md:inline-block"
+            className={`hidden rounded-full px-5 py-2 text-sm font-medium transition-all duration-500 hover:scale-[1.03] md:inline-block ${
+              scrolled ? "bg-ink text-paper" : "bg-white text-ink"
+            }`}
           >
             Erstgespräch buchen
           </SmoothLink>
@@ -59,19 +69,21 @@ export default function Navbar() {
           <button
             aria-label="Menü öffnen"
             aria-expanded={open}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-line md:hidden"
+            className={`flex h-9 w-9 items-center justify-center rounded-full border transition-colors duration-500 md:hidden ${
+              dark ? "border-line" : "border-white/30"
+            }`}
             onClick={() => setOpen((v) => !v)}
           >
             <span className="relative block h-3 w-4">
               <span
-                className={`absolute left-0 top-0 h-px w-4 bg-ink transition-transform duration-300 ${
-                  open ? "translate-y-1.5 rotate-45" : ""
-                }`}
+                className={`absolute left-0 top-0 h-px w-4 transition-all duration-300 ${
+                  dark ? "bg-ink" : "bg-white"
+                } ${open ? "translate-y-1.5 rotate-45" : ""}`}
               />
               <span
-                className={`absolute left-0 bottom-0 h-px w-4 bg-ink transition-transform duration-300 ${
-                  open ? "-translate-y-1.5 -rotate-45" : ""
-                }`}
+                className={`absolute left-0 bottom-0 h-px w-4 transition-all duration-300 ${
+                  dark ? "bg-ink" : "bg-white"
+                } ${open ? "-translate-y-1.5 -rotate-45" : ""}`}
               />
             </span>
           </button>

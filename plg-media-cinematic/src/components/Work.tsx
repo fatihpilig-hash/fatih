@@ -86,12 +86,22 @@ export default function Work() {
             className="work-card flex w-full shrink-0 flex-col gap-5 sm:w-[70vw] sm:max-w-xl lg:w-[46vw]"
           >
             <div className="work-visual grain relative aspect-[4/3] overflow-hidden rounded-2xl bg-anthracite">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={project.image}
-                alt={project.title}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+              {project.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(120% 100% at 20% 20%, #35302b 0%, #171513 60%, #0c0b0a 100%)",
+                  }}
+                />
+              )}
               <div
                 className="absolute inset-0"
                 style={{

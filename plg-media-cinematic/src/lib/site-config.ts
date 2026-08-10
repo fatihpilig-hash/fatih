@@ -88,7 +88,7 @@ export const process = [
 // Generated placeholder visuals (AI-generated, no real client photography yet).
 // Swap these for real project photography/video stills when available.
 export const heroImage =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_676cf909-e013-46c4-9898-8efcd17e0589.png";
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_111658_4ce16fd3-0355-4df6-a187-668990b59eca.png";
 
 export const work = [
   {
@@ -96,24 +96,21 @@ export const work = [
     title: "Fassadenbau Nord",
     category: "Bauunternehmen · Meta Ads & Recruiting",
     result: "Von 3 auf 14 qualifizierte Bewerbungen pro Monat",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_46c0c4b6-a330-46c2-98b8-280bf13d2b51.png",
+    image: undefined as string | undefined,
   },
   {
     index: "02",
     title: "Reinraum Facility Services",
     category: "Gebäudereinigung · Social Media & Automatisierung",
     result: "Anfragebearbeitung von 48 Std. auf unter 10 Minuten",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_6fc8c4c8-d6f8-4f9b-8876-6729f99f609c.png",
+    image: undefined as string | undefined,
   },
   {
     index: "03",
     title: "Stahlwerk Ellinger",
     category: "Bauunternehmen · Website & Content-Produktion",
     result: "Neue Markenpräsenz, dreifach höhere Verweildauer",
-    image:
-      "https://d8j0ntlcm91z4.cloudfront.net/user_3HXiQtFsj4d7wdczy2tHLmN46kl/hf_20260810_110613_1707a743-b0d6-4671-a249-b090079f00c0.png",
+    image: undefined as string | undefined,
   },
 ];
 

@@ -8,9 +8,8 @@ export default function Footer() {
     <footer className="border-t border-line bg-paper py-14">
       <div className="container-edge flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="font-display text-2xl text-ink">
-            PLG&nbsp;<span className="italic">Media</span>
-          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/plg-logo-black.png" alt="PLG Media" className="h-12 w-12" />
           <p className="mt-3 max-w-xs text-sm text-ink/50">
             Social Media, Meta Ads, KI-Automatisierung und Websites für
             Unternehmen, die sichtbar werden wollen.
