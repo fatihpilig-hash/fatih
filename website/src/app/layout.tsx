@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://plgmedia.de"),
   title: "PLG Media – Marketing für mittelständische Unternehmen",
   description:
     "PLG Media hilft mittelständischen Unternehmen jeder Branche durch Social Media, Websites, KI-Automatisierung und Werbeanzeigen zu mehr Sichtbarkeit, Anfragen und Mitarbeitern.",
