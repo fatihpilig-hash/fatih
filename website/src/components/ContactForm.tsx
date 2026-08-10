@@ -2,9 +2,19 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  ArrowUpRight,
+} from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TypeformPopupButton } from "@/components/ui/TypeformButton";
 import { siteConfig } from "@/lib/site-config";
 
 const inputClasses =
@@ -78,6 +88,20 @@ export function ContactForm() {
             title="Lasst uns über euer Wachstum sprechen"
             description="Erzählt uns kurz von eurem Unternehmen – wir melden uns innerhalb von 1–2 Werktagen für ein kostenloses Erstgespräch."
           />
+
+          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-6">
+            <p className="text-sm font-semibold text-foreground">
+              Lieber direkt loslegen?
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Beantwortet ein paar kurze Fragen zu eurem Unternehmen – dauert
+              nur 2 Minuten, wir melden uns danach persönlich bei euch.
+            </p>
+            <TypeformPopupButton className="self-start">
+              Fragebogen starten
+              <ArrowUpRight className="h-4 w-4" />
+            </TypeformPopupButton>
+          </div>
 
           <div className="flex flex-col gap-5 text-sm">
             <a
