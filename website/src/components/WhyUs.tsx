@@ -11,9 +11,9 @@ const reasons = [
   },
   {
     icon: Handshake,
-    title: "Spezialisiert auf B2B",
+    title: "Erfahrung in jeder Branche",
     description:
-      "Wir kennen die Herausforderungen von Bau-, Immobilien- und Industrieunternehmen und sprechen die Sprache eurer Branche.",
+      "Egal in welcher Branche ihr unterwegs seid – wir kennen die Herausforderungen mittelständischer Unternehmen und sprechen eure Sprache.",
   },
   {
     icon: Gauge,
@@ -37,7 +37,7 @@ export function WhyUs() {
           align="left"
           eyebrow="Warum wir"
           title="Ein Partner für euer digitales Wachstum"
-          description="Statt Einzelmaßnahmen bekommt ihr eine aufeinander abgestimmte Wachstumsstrategie – gebaut für B2B-Unternehmen, die planbar wachsen wollen."
+          description="Statt Einzelmaßnahmen bekommt ihr eine aufeinander abgestimmte Wachstumsstrategie – gebaut für mittelständische Unternehmen, die planbar wachsen wollen."
         />
 
         <div className="grid gap-6 sm:grid-cols-2">

@@ -46,8 +46,7 @@ export function Footer() {
           <div className="flex max-w-sm flex-col gap-4">
             <Logo variant="schwarz" className="h-9 w-auto" />
             <p className="text-sm leading-relaxed text-muted-foreground">
-              {siteConfig.tagline} für Bauunternehmen, Handwerksbetriebe,
-              Industrie- und Immobilienunternehmen.
+              {siteConfig.tagline} in jeder Branche.
             </p>
             <div className="flex items-center gap-3">
               {socials.map(({ icon: Icon, label, href }) => (

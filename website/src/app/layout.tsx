@@ -17,9 +17,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "PLG Media – Marketing für B2B-Unternehmen",
+  title: "PLG Media – Marketing für mittelständische Unternehmen",
   description:
-    "PLG Media hilft B2B-Unternehmen wie Bauunternehmen, Handwerksbetrieben und Dienstleistern durch Social Media, Websites, KI-Automatisierung und Werbeanzeigen zu mehr Sichtbarkeit, Anfragen und Mitarbeitern.",
+    "PLG Media hilft mittelständischen Unternehmen jeder Branche durch Social Media, Websites, KI-Automatisierung und Werbeanzeigen zu mehr Sichtbarkeit, Anfragen und Mitarbeitern.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
