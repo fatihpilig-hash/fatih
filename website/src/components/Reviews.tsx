@@ -9,18 +9,6 @@ const reviews = [
     timeAgo: "vor einem Monat",
     text: "Wir sind mit der Betreuung unserer Social-Media-Kanäle auf Facebook, Instagram und TikTok durch PLG Media sehr zufrieden. Die Zusammenarbeit ist professionell, zuverlässig und unkompliziert. Kreative Inhalte, schnelle Kommunikation und eine tolle Umsetzung.\n\nUnsere Auftritte auf den Sozialen Plattformen wirken heute deutlich moderner und professioneller, was wir auch durch positives Feedback von Kunden und Geschäftspartnern merken.\n\nAbsolut empfehlenswert. Vielen Dank für die gute Zusammenarbeit!",
   },
-  {
-    name: "Lorik Berisha",
-    reviewCount: null,
-    timeAgo: null,
-    text: "Eine sehr gute Empfehlung. Hab mir aus Interesse halber mehrere Unternehmen dieser Branchen angehört und muss mit Abstand sagen dass dieses Unternehmen mich am meisten überzeugt hat.",
-  },
-  {
-    name: "Se Ko",
-    reviewCount: "2 Rezensionen",
-    timeAgo: "vor einem Monat",
-    text: "Professionelle Unterstützung. Top Beratung. Nichts zu meckern!",
-  },
 ];
 
 function GoogleLogo({ className }: { className?: string }) {
@@ -56,11 +44,11 @@ export function Reviews() {
           description="Echte Google-Rezensionen von Unternehmen, die wir betreuen."
         />
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="mx-auto grid w-full max-w-xl gap-6">
           {reviews.map(({ name, reviewCount, timeAgo, text }) => (
             <div
               key={name}
-              className="flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-6"
+              className="flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-8"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
