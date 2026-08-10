@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { Stats } from "@/components/Stats";
 import { Industries } from "@/components/Industries";
 import { Services } from "@/components/Services";
 import { Process } from "@/components/Process";
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <main className="flex-1">
       <Hero />
+      <Stats />
       <Industries />
       <Services />
       <Process />
