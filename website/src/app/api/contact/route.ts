@@ -1,7 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { Resend } from "resend";
 
 const MAX_FIELD_LENGTH = 2000;
+
+const MAKE_WEBHOOK_URL =
+  "https://hook.eu1.make.com/uit2exd27lsoc7535lrgxdk5ukqp5p6m";
+
+function notifyMakeWebhook(data: {
+  name: string;
+  email: string;
+  telefon: string;
+  nachricht: string;
+}) {
+  fetch(MAKE_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).catch((error) => {
+    console.error("Contact form: Make webhook failed.", error);
+  });
+}
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -42,6 +60,13 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  // Runs after the response is sent, so a failure here can never delay or
+  // block the Resend send / the client's response, and it fires regardless
+  // of whether the Resend send below succeeds.
+  after(() =>
+    notifyMakeWebhook({ name, email, telefon: phone, nachricht: message })
+  );
 
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL;
