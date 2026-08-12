@@ -1,6 +1,10 @@
-import { Layers, Handshake, Gauge, ShieldCheck } from "lucide-react";
+"use client";
+
+import { useRef } from "react";
+import { Layers, Handshake, Gauge, ShieldCheck, LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useReveal } from "@/lib/useReveal";
 
 const reasons = [
   {
@@ -29,6 +33,37 @@ const reasons = [
   },
 ];
 
+function ReasonCard({
+  icon: Icon,
+  title,
+  description,
+  index,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reveal = useReveal(ref, (index % 2) * 100);
+
+  return (
+    <div
+      ref={ref}
+      style={reveal.style}
+      className={`flex flex-col gap-3 rounded-2xl border border-border bg-background-alt p-6 ${reveal.className}`}
+    >
+      <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-background text-accent">
+        <Icon className="h-5 w-5" />
+      </span>
+      <h3 className="font-bold text-foreground">{title}</h3>
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+    </div>
+  );
+}
+
 export function WhyUs() {
   return (
     <section id="warum-wir" className="py-24 sm:py-28">
@@ -41,19 +76,8 @@ export function WhyUs() {
         />
 
         <div className="grid gap-6 sm:grid-cols-2">
-          {reasons.map(({ icon: Icon, title, description }) => (
-            <div
-              key={title}
-              className="flex flex-col gap-3 rounded-2xl border border-border bg-background-alt p-6"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-background text-accent">
-                <Icon className="h-5 w-5" />
-              </span>
-              <h3 className="font-bold text-foreground">{title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {description}
-              </p>
-            </div>
+          {reasons.map((reason, index) => (
+            <ReasonCard key={reason.title} {...reason} index={index} />
           ))}
         </div>
       </Container>

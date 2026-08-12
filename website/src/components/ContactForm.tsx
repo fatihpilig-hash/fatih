@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Mail,
@@ -16,6 +16,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TypeformPopupButton } from "@/components/ui/TypeformButton";
 import { siteConfig } from "@/lib/site-config";
+import { useReveal } from "@/lib/useReveal";
 
 const inputClasses =
   "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
@@ -31,6 +32,13 @@ type Status = "idle" | "loading" | "success" | "error";
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const ctaReveal = useReveal(ctaRef);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const infoReveal = useReveal(infoRef, 90);
+  const formRef = useRef<HTMLFormElement>(null);
+  const formReveal = useReveal(formRef, 150);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -89,7 +97,11 @@ export function ContactForm() {
             description="Erzählt uns kurz von eurem Unternehmen – wir melden uns innerhalb von 1–2 Werktagen für ein kostenloses Erstgespräch."
           />
 
-          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-6">
+          <div
+            ref={ctaRef}
+            style={ctaReveal.style}
+            className={`flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-6 ${ctaReveal.className}`}
+          >
             <p className="text-sm font-semibold text-foreground">
               Lieber direkt loslegen?
             </p>
@@ -103,7 +115,11 @@ export function ContactForm() {
             </TypeformPopupButton>
           </div>
 
-          <div className="flex flex-col gap-5 text-sm">
+          <div
+            ref={infoRef}
+            style={infoReveal.style}
+            className={`flex flex-col gap-5 text-sm ${infoReveal.className}`}
+          >
             <a
               href={`mailto:${siteConfig.email}`}
               className="flex items-center gap-3 text-foreground/80 hover:text-accent"
@@ -132,9 +148,11 @@ export function ContactForm() {
         </div>
 
         <form
+          ref={formRef}
+          style={formReveal.style}
           onSubmit={handleSubmit}
           noValidate
-          className="flex flex-col gap-5 rounded-3xl border border-border bg-background-alt p-8"
+          className={`flex flex-col gap-5 rounded-3xl border border-border bg-background-alt p-8 ${formReveal.className}`}
         >
           {status === "success" && (
             <p

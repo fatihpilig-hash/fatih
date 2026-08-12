@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef } from "react";
+import { useReveal } from "@/lib/useReveal";
+
 export function SectionHeading({
   eyebrow,
   title,
@@ -10,9 +15,15 @@ export function SectionHeading({
   align?: "center" | "left";
 }) {
   const alignment = align === "center" ? "items-center text-center mx-auto" : "items-start text-left";
+  const ref = useRef<HTMLDivElement>(null);
+  const reveal = useReveal(ref);
 
   return (
-    <div className={`flex flex-col ${alignment} max-w-2xl gap-4`}>
+    <div
+      ref={ref}
+      style={reveal.style}
+      className={`flex flex-col ${alignment} max-w-2xl gap-4 ${reveal.className}`}
+    >
       {eyebrow && (
         <span className="inline-flex items-center rounded-full bg-accent-soft px-4 py-1.5 text-sm font-semibold text-accent">
           {eyebrow}

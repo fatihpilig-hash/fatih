@@ -1,8 +1,15 @@
+"use client";
+
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
+import { useReveal } from "@/lib/useReveal";
 
 export function CTABand() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reveal = useReveal(ref);
+
   return (
     <section className="py-6">
       <Container>
@@ -11,7 +18,11 @@ export function CTABand() {
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_50%_0%,rgba(79,70,229,0.35)_0%,transparent_70%)]"
           />
-          <div className="relative flex flex-col items-center gap-6">
+          <div
+            ref={ref}
+            style={reveal.style}
+            className={`relative flex flex-col items-center gap-6 ${reveal.className}`}
+          >
             <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-primary-foreground sm:text-4xl">
               Bereit für planbares digitales Wachstum?
             </h2>
