@@ -1,6 +1,10 @@
-import { Search, Compass, Rocket, LineChart } from "lucide-react";
+"use client";
+
+import { useRef } from "react";
+import { Search, Compass, Rocket, LineChart, LucideIcon } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useReveal } from "@/lib/useReveal";
 
 const steps = [
   {
@@ -33,6 +37,52 @@ const steps = [
   },
 ];
 
+function ProcessStep({
+  icon: Icon,
+  step,
+  title,
+  description,
+  index,
+  isLast,
+}: {
+  icon: LucideIcon;
+  step: string;
+  title: string;
+  description: string;
+  index: number;
+  isLast: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reveal = useReveal(ref, index * 90);
+
+  return (
+    <div
+      ref={ref}
+      style={reveal.style}
+      className={`relative flex flex-col gap-4 ${reveal.className}`}
+    >
+      <div className="flex items-center gap-4">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+          <Icon className="h-5 w-5" />
+        </span>
+        <span className="text-sm font-bold text-muted-foreground">
+          {step}
+        </span>
+      </div>
+      <h3 className="text-lg font-bold text-foreground">{title}</h3>
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      {!isLast && (
+        <span
+          aria-hidden
+          className="absolute top-6 left-[calc(100%_+_1rem)] hidden h-px w-8 bg-border lg:block"
+        />
+      )}
+    </div>
+  );
+}
+
 export function Process() {
   return (
     <section id="ablauf" className="bg-background-alt py-24 sm:py-28">
@@ -44,27 +94,13 @@ export function Process() {
         />
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map(({ icon: Icon, step, title, description }, i) => (
-            <div key={step} className="relative flex flex-col gap-4">
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="text-sm font-bold text-muted-foreground">
-                  {step}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-foreground">{title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {description}
-              </p>
-              {i < steps.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute top-6 left-[calc(100%_+_1rem)] hidden h-px w-8 bg-border lg:block"
-                />
-              )}
-            </div>
+          {steps.map((step, index) => (
+            <ProcessStep
+              key={step.step}
+              {...step}
+              index={index}
+              isLast={index === steps.length - 1}
+            />
           ))}
         </div>
       </Container>

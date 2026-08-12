@@ -1,6 +1,10 @@
+"use client";
+
+import { useRef } from "react";
 import { Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useReveal } from "@/lib/useReveal";
 
 const reviews = [
   {
@@ -34,6 +38,58 @@ function GoogleLogo({ className }: { className?: string }) {
   );
 }
 
+function ReviewCard({
+  name,
+  reviewCount,
+  timeAgo,
+  text,
+  index,
+}: {
+  name: string;
+  reviewCount: string;
+  timeAgo: string;
+  text: string;
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reveal = useReveal(ref, index * 90);
+
+  return (
+    <div
+      ref={ref}
+      style={reveal.style}
+      className={`flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-8 ${reveal.className}`}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+            {name.charAt(0)}
+          </span>
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-foreground">
+              {name}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {[reviewCount, timeAgo].filter(Boolean).join(" · ")}
+            </span>
+          </div>
+        </div>
+        <GoogleLogo className="h-5 w-5 shrink-0" />
+      </div>
+
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+        ))}
+      </div>
+
+      <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+        {text}
+      </p>
+    </div>
+  );
+}
+
 export function Reviews() {
   return (
     <section id="bewertungen" className="py-24 sm:py-28">
@@ -45,41 +101,8 @@ export function Reviews() {
         />
 
         <div className="mx-auto grid w-full max-w-xl gap-6">
-          {reviews.map(({ name, reviewCount, timeAgo, text }) => (
-            <div
-              key={name}
-              className="flex flex-col gap-4 rounded-2xl border border-border bg-background-alt p-8"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-                    {name.charAt(0)}
-                  </span>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-foreground">
-                      {name}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {[reviewCount, timeAgo].filter(Boolean).join(" · ")}
-                    </span>
-                  </div>
-                </div>
-                <GoogleLogo className="h-5 w-5 shrink-0" />
-              </div>
-
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-amber-400 text-amber-400"
-                  />
-                ))}
-              </div>
-
-              <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-                {text}
-              </p>
-            </div>
+          {reviews.map((review, index) => (
+            <ReviewCard key={review.name} {...review} index={index} />
           ))}
         </div>
       </Container>

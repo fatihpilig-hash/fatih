@@ -1,6 +1,10 @@
+"use client";
+
+import { useRef } from "react";
 import { ArrowUpRight, PlayCircle, TrendingUp, Users, Eye } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
+import { useReveal } from "@/lib/useReveal";
 
 const floatingCards = [
   { icon: Eye, label: "Sichtbarkeit", trend: "steigend" },
@@ -9,6 +13,11 @@ const floatingCards = [
 ];
 
 export function Hero() {
+  const textRef = useRef<HTMLDivElement>(null);
+  const textReveal = useReveal(textRef);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const visualReveal = useReveal(visualRef, 150);
+
   return (
     <section id="top" className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
       <div
@@ -16,7 +25,11 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-accent-soft)_0%,transparent_70%)]"
       />
       <Container className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="flex flex-col items-start gap-7">
+        <div
+          ref={textRef}
+          style={textReveal.style}
+          className={`flex flex-col items-start gap-7 ${textReveal.className}`}
+        >
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background-alt px-4 py-1.5 text-sm font-semibold text-foreground/80">
             Social Media für dein Unternehmen
           </span>
@@ -64,7 +77,11 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+        <div
+          ref={visualRef}
+          style={visualReveal.style}
+          className={`relative mx-auto w-full max-w-md lg:max-w-none ${visualReveal.className}`}
+        >
           <div className="relative aspect-[4/5] w-full rounded-[2rem] bg-primary p-8 shadow-2xl shadow-primary/20 sm:p-10">
             <div className="flex h-full flex-col justify-between">
               <div>
