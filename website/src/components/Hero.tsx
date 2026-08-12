@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { ArrowUpRight, PlayCircle, TrendingUp, Users, Eye } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
-import { NetworkBackground } from "@/components/ui/NetworkBackground";
 import { useReveal } from "@/lib/useReveal";
 
 const floatingCards = [
@@ -21,7 +20,6 @@ export function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
-      <NetworkBackground className="absolute inset-0 -z-10" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-accent-soft)_0%,transparent_70%)]"
