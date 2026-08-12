@@ -5,45 +5,66 @@ import { Film, Eye } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { TiktokIcon, InstagramIcon } from "@/components/ui/SocialIcons";
 import { useReveal } from "@/lib/useReveal";
+import { useCountUp } from "@/lib/useCountUp";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
 const stats = [
   {
     icon: TiktokIcon,
-    value: "344",
+    target: 344,
+    decimals: 0,
+    suffix: "",
     label: "TikTok-Kurzvideos produziert",
   },
   {
     icon: Eye,
-    value: "16,8 Mio.",
+    target: 16.8,
+    decimals: 1,
+    suffix: " Mio.",
     label: "Aufrufe auf TikTok",
   },
   {
     icon: InstagramIcon,
-    value: "347",
+    target: 347,
+    decimals: 0,
+    suffix: "",
     label: "Instagram-Kurzvideos produziert",
   },
   {
     icon: Film,
-    value: "16,4 Mio.",
+    target: 16.4,
+    decimals: 1,
+    suffix: " Mio.",
     label: "Aufrufe auf Instagram",
   },
 ];
 
+function formatNumber(value: number, decimals: number) {
+  return value.toLocaleString("de-DE", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
+
 function StatItem({
   icon: Icon,
-  value,
+  target,
+  decimals,
+  suffix,
   label,
   index,
 }: {
   icon: IconComponent;
-  value: string;
+  target: number;
+  decimals: number;
+  suffix: string;
   label: string;
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reveal = useReveal(ref, index * 90);
+  const count = useCountUp(ref, target);
 
   return (
     <div
@@ -54,8 +75,9 @@ function StatItem({
       <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-accent">
         <Icon className="h-5 w-5" />
       </span>
-      <span className="text-3xl font-extrabold tracking-tight text-primary-foreground sm:text-4xl">
-        {value}
+      <span className="text-3xl font-extrabold tracking-tight text-primary-foreground tabular-nums sm:text-4xl">
+        {formatNumber(count, decimals)}
+        {suffix}
       </span>
       <span className="text-sm text-primary-foreground/60">{label}</span>
     </div>
