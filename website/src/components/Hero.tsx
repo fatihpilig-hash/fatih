@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { ArrowUpRight, PlayCircle, TrendingUp, Users, Eye } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
+import { PlatformIcons } from "@/components/ui/PlatformIcons";
 import { useReveal } from "@/lib/useReveal";
 
 const floatingCards = [
@@ -24,13 +25,16 @@ export function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-accent-soft)_0%,transparent_70%)]"
       />
+      <div className="absolute inset-x-0 top-3 flex justify-center lg:hidden">
+        <PlatformIcons />
+      </div>
       <Container className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div
           ref={textRef}
           style={textReveal.style}
           className={`flex flex-col items-start gap-7 ${textReveal.className}`}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background-alt px-4 py-1.5 text-sm font-semibold text-foreground/80">
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-background-alt px-4 py-1.5 text-sm font-semibold text-foreground/80 lg:mt-0">
             Social Media für dein Unternehmen
           </span>
 
@@ -82,6 +86,10 @@ export function Hero() {
           style={visualReveal.style}
           className={`relative mx-auto w-full max-w-md lg:max-w-none ${visualReveal.className}`}
         >
+          <div className="absolute inset-x-0 bottom-full mb-4 hidden justify-center lg:flex">
+            <PlatformIcons />
+          </div>
+
           <div className="relative aspect-[4/5] w-full rounded-[2rem] bg-primary p-8 shadow-2xl shadow-primary/20 sm:p-10">
             <div className="flex h-full flex-col justify-between">
               <div>
