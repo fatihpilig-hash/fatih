@@ -9,19 +9,24 @@ const platforms = [
   { name: "LinkedIn", src: "/platform-icons/icon-linkedin.png" },
 ];
 
+// Rendered twice back-to-back so the track can loop seamlessly at -50%.
+const loopedPlatforms = [...platforms, ...platforms];
+
 export function PlatformIcons() {
   return (
-    <div className="flex items-center justify-center gap-4 sm:gap-6">
-      {platforms.map(({ name, src }) => (
-        <Image
-          key={name}
-          src={src}
-          alt={name}
-          width={128}
-          height={128}
-          className="h-6 w-6 shrink-0 object-contain sm:h-7 sm:w-7"
-        />
-      ))}
+    <div aria-hidden className="marquee-mask w-56 overflow-hidden sm:w-72">
+      <div className="marquee-track flex w-max items-center gap-4 sm:gap-6">
+        {loopedPlatforms.map(({ name, src }, index) => (
+          <Image
+            key={`${name}-${index}`}
+            src={src}
+            alt=""
+            width={128}
+            height={128}
+            className="h-6 w-6 shrink-0 object-contain sm:h-7 sm:w-7"
+          />
+        ))}
+      </div>
     </div>
   );
 }
