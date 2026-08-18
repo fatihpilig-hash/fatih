@@ -34,7 +34,7 @@ export function Hero() {
           style={textReveal.style}
           className={`flex flex-col items-start gap-7 ${textReveal.className}`}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background-alt px-4 py-1.5 text-sm font-semibold text-foreground/80">
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-background-alt px-4 py-1.5 text-sm font-semibold text-foreground/80 lg:mt-0">
             Social Media für dein Unternehmen
           </span>
 
