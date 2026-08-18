@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { ArrowUpRight, PlayCircle, TrendingUp, Users, Eye } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
+import { PlatformMarquee } from "@/components/ui/PlatformMarquee";
 import { useReveal } from "@/lib/useReveal";
 
 const floatingCards = [
@@ -82,7 +83,8 @@ export function Hero() {
           style={visualReveal.style}
           className={`relative mx-auto w-full max-w-md lg:max-w-none ${visualReveal.className}`}
         >
-          <div className="relative aspect-[4/5] w-full rounded-[2rem] bg-primary p-8 shadow-2xl shadow-primary/20 sm:p-10">
+          <PlatformMarquee />
+          <div className="relative mt-5 aspect-[4/5] w-full rounded-[2rem] bg-primary p-8 shadow-2xl shadow-primary/20 sm:p-10">
             <div className="flex h-full flex-col justify-between">
               <div>
                 <p className="text-sm font-medium text-primary-foreground/60">

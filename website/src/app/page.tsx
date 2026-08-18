@@ -1,5 +1,4 @@
 import { Hero } from "@/components/Hero";
-import { PlatformBar } from "@/components/PlatformBar";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
 import { Process } from "@/components/Process";
@@ -12,7 +11,6 @@ export default function Home() {
   return (
     <main className="flex-1">
       <Hero />
-      <PlatformBar />
       <Stats />
       <Services />
       <Process />
