@@ -85,45 +85,6 @@ body {
   transform: translateY(0);
 }
 
-/* Platform logo marquee: an endless leftward conveyor belt. The track
-   renders the logo list twice back to back, so looping the transform
-   from 0 to -50% at constant speed repeats seamlessly. */
-@keyframes marquee-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  animation: marquee-scroll 22s linear infinite;
-}
-
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation-play-state: paused !important;
-  }
-}
-
 /* Legal page body copy (Impressum, Datenschutz): plain semantic HTML
    styled here so the page files can stay pure content. */
 .legal-content h2 {
