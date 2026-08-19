@@ -8,7 +8,6 @@ import {
   Bot,
   Megaphone,
   Target,
-  UserPlus,
   Check,
   LucideIcon,
 } from "lucide-react";
@@ -83,20 +82,9 @@ const services = [
       "Zielgerichtete Meta-Ads-Kampagnen für Reichweite, Leads und Bewerbungen.",
     points: [
       "Meta Ads (Facebook & Instagram)",
-      "Leadgenerierung",
+      "Mitarbeitergewinnung über Social Media",
       "Recruiting-Kampagnen",
       "Reichweitenkampagnen",
-    ],
-  },
-  {
-    icon: UserPlus,
-    title: "Recruiting",
-    description:
-      "Neue Mitarbeiter über Social Media gewinnen – von der Kampagne bis zur Bewerbung.",
-    points: [
-      "Mitarbeitergewinnung über Social Media",
-      "Bewerberkampagnen",
-      "Optimierte Bewerbungsprozesse",
     ],
   },
 ];
