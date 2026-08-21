@@ -8,7 +8,11 @@ import { RefObject, useEffect, useState } from "react";
  * raw boolean so a component can drive several dependent visual states
  * (icon color, connecting lines, etc.) off the same trigger.
  */
-export function useInView(ref: RefObject<HTMLElement | null>, threshold = 0.35) {
+export function useInView(
+  ref: RefObject<HTMLElement | null>,
+  threshold = 0.35,
+  rootMargin = "0px 0px -15% 0px"
+) {
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
@@ -22,12 +26,12 @@ export function useInView(ref: RefObject<HTMLElement | null>, threshold = 0.35) 
           observer.disconnect();
         }
       },
-      { threshold, rootMargin: "0px 0px -15% 0px" }
+      { threshold, rootMargin }
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [ref, threshold]);
+  }, [ref, threshold, rootMargin]);
 
   return inView;
 }
