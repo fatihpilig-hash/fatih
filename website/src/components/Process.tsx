@@ -62,7 +62,7 @@ function ProcessStep({
   const active = useInView(ref);
 
   return (
-    <div ref={ref} style={reveal.style} className={`relative ${reveal.className}`}>
+    <div ref={ref} style={reveal.style} className={`relative h-full ${reveal.className}`}>
       {!isLast && (
         <>
           {/* Mobile: vertical connector, runs behind the next icon so a
@@ -93,7 +93,7 @@ function ProcessStep({
       )}
 
       <div
-        className={`group flex w-full items-start gap-5 rounded-2xl border bg-background p-6 transition-all duration-500 ${EASE} hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg lg:flex-col lg:gap-4 ${
+        className={`group flex h-full w-full items-start gap-5 rounded-2xl border bg-background p-6 transition-all duration-500 ${EASE} hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg lg:flex-col lg:gap-4 ${
           active ? "-translate-y-1 border-accent/40 shadow-lg" : "border-border"
         }`}
       >
