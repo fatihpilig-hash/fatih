@@ -64,21 +64,6 @@ export function Hero() {
               Leistungen ansehen
             </LinkButton>
           </div>
-
-          <div className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Für jede Branche
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Alles aus einer Hand
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Persönliche Betreuung
-            </span>
-          </div>
         </div>
 
         <div
