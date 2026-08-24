@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from "react";
-import { Eye, TrendingUp, Users, Plus, LucideIcon } from "lucide-react";
+import { Eye, TrendingUp, Users, LucideIcon } from "lucide-react";
 import { useCountUp } from "@/lib/useCountUp";
 
 const curvePoints: [number, number][] = [
@@ -43,21 +43,12 @@ function interpolateY(x: number) {
 function KpiRow({
   icon: Icon,
   label,
-  trend,
-  value,
-  suffix,
   pulse,
 }: {
   icon: LucideIcon;
   label: string;
-  trend: string;
-  value: number;
-  suffix: string;
   pulse: boolean;
 }) {
-  const countRef = useRef<HTMLSpanElement>(null);
-  const count = useCountUp(countRef, value);
-
   return (
     <div
       className={`group flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur transition-all duration-300 ${EASE} hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-[0_0_0_1px_rgba(79,70,229,0.4),0_8px_20px_-8px_rgba(79,70,229,0.6)] ${
@@ -71,19 +62,6 @@ function KpiRow({
           }`}
         />
         {label}
-      </span>
-      <span
-        ref={countRef}
-        className="flex items-center gap-1.5 text-xs font-semibold text-accent"
-      >
-        +{Math.round(count)}
-        {suffix} · {trend}
-        {label === "Anfragen" && (
-          <Plus
-            aria-hidden
-            className={`h-3 w-3 scale-50 opacity-0 transition-all duration-300 ${EASE} group-hover:scale-100 group-hover:opacity-100`}
-          />
-        )}
       </span>
     </div>
   );
