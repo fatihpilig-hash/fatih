@@ -1,17 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowUpRight, PlayCircle, TrendingUp, Users, Eye } from "lucide-react";
+import { ArrowUpRight, PlayCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
 import { PlatformIcons } from "@/components/ui/PlatformIcons";
+import { HeroVisual } from "@/components/HeroVisual";
 import { useReveal } from "@/lib/useReveal";
-
-const floatingCards = [
-  { icon: Eye, label: "Sichtbarkeit", trend: "steigend" },
-  { icon: TrendingUp, label: "Anfragen", trend: "steigend" },
-  { icon: Users, label: "Mitarbeiter", trend: "gewinnen" },
-];
 
 export function Hero() {
   const textRef = useRef<HTMLDivElement>(null);
@@ -64,21 +59,6 @@ export function Hero() {
               Leistungen ansehen
             </LinkButton>
           </div>
-
-          <div className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Für jede Branche
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Alles aus einer Hand
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Persönliche Betreuung
-            </span>
-          </div>
         </div>
 
         <div
@@ -90,55 +70,7 @@ export function Hero() {
             <PlatformIcons />
           </div>
 
-          <div className="relative aspect-[4/5] w-full rounded-[2rem] bg-primary p-8 shadow-2xl shadow-primary/20 sm:p-10">
-            <div className="flex h-full flex-col justify-between">
-              <div>
-                <p className="text-sm font-medium text-primary-foreground/60">
-                  Digitales Wachstum
-                </p>
-                <p className="mt-1 text-2xl font-bold text-primary-foreground">
-                  Für euer Unternehmen
-                </p>
-              </div>
-
-              <div
-                aria-hidden
-                className="relative h-40 w-full overflow-hidden rounded-2xl bg-white/5"
-              >
-                <svg
-                  viewBox="0 0 200 100"
-                  className="h-full w-full"
-                  preserveAspectRatio="none"
-                >
-                  <polyline
-                    points="0,85 30,70 60,75 90,45 120,50 150,20 200,10"
-                    fill="none"
-                    stroke="var(--color-accent)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                {floatingCards.map(({ icon: Icon, label, trend }) => (
-                  <div
-                    key={label}
-                    className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur"
-                  >
-                    <span className="flex items-center gap-3 text-sm font-medium text-primary-foreground">
-                      <Icon className="h-4 w-4 text-accent" />
-                      {label}
-                    </span>
-                    <span className="text-xs font-semibold text-accent">
-                      {trend}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <HeroVisual />
         </div>
       </Container>
     </section>

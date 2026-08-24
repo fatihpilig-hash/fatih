@@ -124,6 +124,19 @@ body {
   }
 }
 
+/* Hero visual: a short bright dash that sweeps once along the growth
+   curve's path every loop, layered on top of the already-drawn line
+   (see src/components/HeroVisual.tsx). Uses the pathLength=100 trick,
+   so the dash offset is in path-relative units, not pixels. */
+@keyframes hero-curve-travel {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
 /* Legal page body copy (Impressum, Datenschutz): plain semantic HTML
    styled here so the page files can stay pure content. */
 .legal-content h2 {
