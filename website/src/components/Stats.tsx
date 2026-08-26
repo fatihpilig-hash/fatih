@@ -4,22 +4,27 @@ import { useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from "reac
 import { Container } from "@/components/ui/Container";
 import { useInView } from "@/lib/useInView";
 
-type NodeKey = "center" | "top" | "left" | "right";
+type NodeKey = "center" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 
+// Center = the overall outcome metric; the four platform facts sit
+// around it grouped by platform (TikTok on top, Instagram on bottom)
+// so the layout reads as a hierarchy instead of an arbitrary order.
 const nodes: { key: NodeKey; value: string; label: string; x: number; y: number }[] = [
-  { key: "center", value: "20 Mio.+", label: "Aufrufe auf TikTok", x: 50, y: 50 },
-  { key: "top", value: "500+", label: "TikTok-Kurzvideos produziert", x: 50, y: 15 },
-  { key: "left", value: "500+", label: "Instagram-Kurzvideos produziert", x: 21, y: 68 },
-  { key: "right", value: "22 Mio.+", label: "Aufrufe auf Instagram", x: 79, y: 68 },
+  { key: "center", value: "40 Tsd.+", label: "Abonnenten generiert", x: 50, y: 50 },
+  { key: "topLeft", value: "500+", label: "TikTok-Kurzvideos produziert", x: 22, y: 20 },
+  { key: "topRight", value: "20 Mio.+", label: "Aufrufe auf TikTok", x: 78, y: 20 },
+  { key: "bottomLeft", value: "500+", label: "Instagram-Kurzvideos produziert", x: 22, y: 80 },
+  { key: "bottomRight", value: "22 Mio.+", label: "Aufrufe auf Instagram", x: 78, y: 80 },
 ];
 
 // Distinct, fixed durations/delays per edge (not randomized at runtime)
-// so the three data pulses drift in and out of sync instead of looping
-// in lockstep, without depending on client-only randomness.
+// so the data pulses drift in and out of sync instead of looping in
+// lockstep, without depending on client-only randomness.
 const edges: { from: NodeKey; to: NodeKey; duration: number; delay: number }[] = [
-  { from: "center", to: "top", duration: 4.5, delay: 0 },
-  { from: "center", to: "left", duration: 5.6, delay: 1.4 },
-  { from: "center", to: "right", duration: 6.2, delay: 2.6 },
+  { from: "center", to: "topLeft", duration: 4.5, delay: 0 },
+  { from: "center", to: "topRight", duration: 5.2, delay: 0.9 },
+  { from: "center", to: "bottomLeft", duration: 5.8, delay: 1.8 },
+  { from: "center", to: "bottomRight", duration: 6.4, delay: 2.7 },
 ];
 
 // Fixed positions (not random) so server and client render identically.
