@@ -1,235 +1,118 @@
 "use client";
 
-import {
-  ComponentType,
-  SVGProps,
-  MouseEvent as ReactMouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Film, Eye } from "lucide-react";
+import { useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from "react";
 import { Container } from "@/components/ui/Container";
-import { TiktokIcon, InstagramIcon } from "@/components/ui/SocialIcons";
-import { useReveal } from "@/lib/useReveal";
-import { useCountUp } from "@/lib/useCountUp";
+import { useInView } from "@/lib/useInView";
 
-type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
+type NodeKey = "center" | "top" | "left" | "right";
 
-const stats = [
-  {
-    icon: TiktokIcon,
-    target: 500,
-    decimals: 0,
-    suffix: "+",
-    label: "TikTok-Kurzvideos produziert",
-  },
-  {
-    icon: Eye,
-    target: 20,
-    decimals: 0,
-    suffix: " Mio.+",
-    label: "Aufrufe auf TikTok",
-  },
-  {
-    icon: InstagramIcon,
-    target: 500,
-    decimals: 0,
-    suffix: "+",
-    label: "Instagram-Kurzvideos produziert",
-  },
-  {
-    icon: Film,
-    target: 22,
-    decimals: 0,
-    suffix: " Mio.+",
-    label: "Aufrufe auf Instagram",
-  },
+const nodes: { key: NodeKey; value: string; label: string; x: number; y: number }[] = [
+  { key: "center", value: "20 Mio.+", label: "Aufrufe auf TikTok", x: 50, y: 50 },
+  { key: "top", value: "500+", label: "TikTok-Kurzvideos produziert", x: 50, y: 15 },
+  { key: "left", value: "500+", label: "Instagram-Kurzvideos produziert", x: 21, y: 68 },
+  { key: "right", value: "22 Mio.+", label: "Aufrufe auf Instagram", x: 79, y: 68 },
+];
+
+// Distinct, fixed durations/delays per edge (not randomized at runtime)
+// so the three data pulses drift in and out of sync instead of looping
+// in lockstep, without depending on client-only randomness.
+const edges: { from: NodeKey; to: NodeKey; duration: number; delay: number }[] = [
+  { from: "center", to: "top", duration: 4.5, delay: 0 },
+  { from: "center", to: "left", duration: 5.6, delay: 1.4 },
+  { from: "center", to: "right", duration: 6.2, delay: 2.6 },
 ];
 
 // Fixed positions (not random) so server and client render identically.
 const bgDots = [
-  { left: "10%", top: "22%", delay: 0 },
-  { left: "80%", top: "16%", delay: 0.6 },
-  { left: "32%", top: "72%", delay: 1.2 },
-  { left: "64%", top: "78%", delay: 0.3 },
-  { left: "90%", top: "52%", delay: 0.9 },
-  { left: "18%", top: "48%", delay: 1.5 },
+  { left: "8%", top: "18%", delay: 0 },
+  { left: "88%", top: "22%", delay: 0.7 },
+  { left: "14%", top: "82%", delay: 1.3 },
+  { left: "70%", top: "88%", delay: 0.4 },
+  { left: "92%", top: "58%", delay: 1.8 },
+  { left: "30%", top: "8%", delay: 1.0 },
 ];
 
 // Matches the easing already used for scroll-reveal (see useReveal.ts /
 // globals.css .reveal) so this motion feels like the same system.
 const EASE = "ease-[cubic-bezier(0.16,1,0.3,1)]";
 
-function formatNumber(value: number, decimals: number) {
-  return value.toLocaleString("de-DE", {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
+function findNode(key: NodeKey) {
+  return nodes.find((n) => n.key === key)!;
 }
 
-function StatCard({
-  icon: Icon,
-  target,
-  decimals,
-  suffix,
-  label,
-  index,
-  pulse,
-}: {
-  icon: IconComponent;
-  target: number;
-  decimals: number;
-  suffix: string;
-  label: string;
-  index: number;
-  pulse: boolean;
-}) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const reveal = useReveal(wrapRef, index * 90);
-  const count = useCountUp(wrapRef, target);
+function edgeState(edge: (typeof edges)[number], hovered: NodeKey | null): "default" | "active" | "dim" {
+  if (!hovered) return "default";
+  if (hovered === "center") return "active";
+  if (edge.to === hovered || edge.from === hovered) return "active";
+  return "dim";
+}
 
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glow, setGlow] = useState({ x: 50, y: 50 });
-  const [hovering, setHovering] = useState(false);
-
-  function handleMove(e: ReactMouseEvent<HTMLDivElement>) {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const relX = (e.clientX - rect.left) / rect.width;
-    const relY = (e.clientY - rect.top) / rect.height;
-    setTilt({ x: (0.5 - relY) * 5, y: (relX - 0.5) * 5 });
-    setGlow({ x: relX * 100, y: relY * 100 });
-  }
-
-  function handleLeave() {
-    setTilt({ x: 0, y: 0 });
-    setHovering(false);
-  }
-
-  return (
-    <div ref={wrapRef} style={reveal.style} className={`relative ${reveal.className}`}>
-      <div style={{ perspective: "900px" }}>
-        <div
-          ref={cardRef}
-          onMouseMove={handleMove}
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={handleLeave}
-          style={{
-            transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovering ? 1.02 : 1})`,
-          }}
-          className={`group relative flex flex-col items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-6 py-8 text-center backdrop-blur-sm transition-all duration-300 ${EASE} hover:border-white/20 ${
-            pulse ? "border-accent/30" : ""
-          }`}
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-500"
-            style={{
-              background: `radial-gradient(220px circle at ${glow.x}% ${glow.y}%, rgba(79,70,229,0.28), transparent 70%)`,
-              opacity: hovering ? 1 : 0,
-            }}
-          />
-
-          <span
-            className={`relative z-10 flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-accent transition-all duration-300 ${EASE} group-hover:scale-110 group-hover:bg-accent/20 ${
-              pulse ? "shadow-[0_0_0_6px_rgba(79,70,229,0.15)]" : ""
-            }`}
-          >
-            <Icon className="h-5 w-5" />
-          </span>
-          <span className="relative z-10 text-3xl font-extrabold tracking-tight text-primary-foreground tabular-nums sm:text-4xl">
-            {formatNumber(count, decimals)}
-            {suffix}
-          </span>
-          <span className="relative z-10 text-sm text-primary-foreground/60">{label}</span>
-
-          <svg
-            aria-hidden
-            viewBox="0 0 60 20"
-            className={`absolute bottom-3 left-1/2 h-3 w-12 -translate-x-1/2 opacity-0 transition-opacity duration-300 ${EASE} group-hover:opacity-60`}
-          >
-            <polyline
-              points="0,16 12,10 24,13 36,4 48,8 60,2"
-              fill="none"
-              stroke="var(--color-accent)"
-              strokeWidth={1.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
+function nodeState(key: NodeKey, hovered: NodeKey | null): "default" | "active" | "dim" {
+  if (!hovered) return "default";
+  if (hovered === "center" || key === "center" || key === hovered) return "active";
+  return "dim";
 }
 
 export function Stats() {
   const sectionRef = useRef<HTMLElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const waveRef = useRef<HTMLDivElement>(null);
-  const dotsRef = useRef<HTMLDivElement>(null);
+  const revealRef = useRef<HTMLDivElement>(null);
+  const revealed = useInView(revealRef, 0.3);
+
+  const bgRef = useRef<HTMLDivElement>(null);
+  const wavesRef = useRef<HTMLDivElement>(null);
+  const linesRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const centerRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
 
+  const targetRef = useRef({ x: 0, y: 0 });
+  const currentRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
-  const pointerRef = useRef({ x: 0, y: 0 });
-  const reducedMotionRef = useRef(false);
 
-  const [pulseIndex, setPulseIndex] = useState(-1);
+  const [hovered, setHovered] = useState<NodeKey | null>(null);
 
+  // Soft, lagging parallax: each frame eases the applied position a
+  // little closer to the raw cursor position instead of snapping to it,
+  // so the layers visibly trail the mouse rather than sticking to it.
   useEffect(() => {
-    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      setPulseIndex((i) => (i + 1) % stats.length);
-    }, 7000);
-    return () => clearInterval(id);
-  }, []);
+    function tick() {
+      const t = targetRef.current;
+      const c = currentRef.current;
+      c.x += (t.x - c.x) * 0.06;
+      c.y += (t.y - c.y) * 0.06;
 
-  useEffect(() => {
+      if (bgRef.current) bgRef.current.style.transform = `translate3d(${c.x * 26}px, ${c.y * 16}px, 0)`;
+      if (wavesRef.current) wavesRef.current.style.transform = `translate3d(${c.x * -16}px, ${c.y * -9}px, 0)`;
+      if (linesRef.current) linesRef.current.style.transform = `translate3d(${c.x * 6}px, ${c.y * 4}px, 0)`;
+      if (outerRef.current) outerRef.current.style.transform = `translate3d(${c.x * 4}px, ${c.y * 3}px, 0)`;
+      if (centerRef.current) centerRef.current.style.transform = `translate3d(${c.x * 2}px, ${c.y * 1.5}px, 0)`;
+      if (spotlightRef.current) {
+        spotlightRef.current.style.setProperty("--mx", `${((c.x + 1) / 2) * 100}%`);
+        spotlightRef.current.style.setProperty("--my", `${((c.y + 1) / 2) * 100}%`);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    }
+
+    rafRef.current = requestAnimationFrame(tick);
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  function applyPointer() {
-    rafRef.current = null;
-    const { x, y } = pointerRef.current;
-
-    if (spotlightRef.current) {
-      spotlightRef.current.style.setProperty("--mx", `${((x + 1) / 2) * 100}%`);
-      spotlightRef.current.style.setProperty("--my", `${((y + 1) / 2) * 100}%`);
-    }
-
-    if (!reducedMotionRef.current) {
-      if (glowRef.current) glowRef.current.style.transform = `translate3d(${x * 22}px, ${y * 14}px, 0)`;
-      if (waveRef.current) waveRef.current.style.transform = `translate3d(${x * -12}px, ${y * -6}px, 0)`;
-      if (dotsRef.current) dotsRef.current.style.transform = `translate3d(${x * 8}px, ${y * 10}px, 0)`;
-    }
-  }
-
-  function scheduleUpdate() {
-    if (rafRef.current == null) {
-      rafRef.current = requestAnimationFrame(applyPointer);
-    }
-  }
-
   function handleMouseMove(e: ReactMouseEvent<HTMLElement>) {
     const rect = sectionRef.current?.getBoundingClientRect();
     if (!rect) return;
-    pointerRef.current = {
+    targetRef.current = {
       x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
       y: ((e.clientY - rect.top) / rect.height) * 2 - 1,
     };
-    scheduleUpdate();
   }
 
   function handleMouseLeave() {
-    pointerRef.current = { x: 0, y: 0 };
-    scheduleUpdate();
+    targetRef.current = { x: 0, y: 0 };
   }
 
   return (
@@ -237,58 +120,46 @@ export function Stats() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group/stats relative overflow-hidden bg-primary py-20 sm:py-24"
+      className="group/stats relative overflow-hidden bg-primary py-20 sm:py-28"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#0a0a0a_0%,#130f20_55%,#0a0a0a_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#0a0a0a_0%,#140f22_50%,#0a0a0a_100%)]"
       />
 
       <div
-        ref={glowRef}
         aria-hidden
-        className={`pointer-events-none absolute inset-0 transition-transform duration-500 ${EASE}`}
-      >
-        <div className="absolute -top-24 left-[10%] h-72 w-72 rounded-full bg-accent/25 blur-3xl" />
-        <div className="absolute -bottom-24 right-[8%] h-80 w-80 rounded-full bg-accent/15 blur-3xl" />
+        className="pointer-events-none absolute inset-0 opacity-[0.05] [background-image:linear-gradient(rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:64px_64px]"
+      />
+
+      <div ref={bgRef} aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 left-[8%] h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
+        <div className="absolute -bottom-24 right-[6%] h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+        <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
       </div>
 
-      <div
-        ref={waveRef}
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 opacity-40 transition-transform duration-500 ${EASE}`}
-      >
-        <svg viewBox="0 0 1000 300" className="h-full w-full" preserveAspectRatio="none">
+      <div ref={wavesRef} aria-hidden className="pointer-events-none absolute inset-0 opacity-40">
+        <svg viewBox="0 0 1000 400" className="h-full w-full" preserveAspectRatio="none">
           <path
-            d="M0,180 C 200,120 300,220 500,160 S 800,100 1000,150"
+            d="M0,260 C 220,190 320,300 520,240 S 820,150 1000,210"
             fill="none"
             stroke="white"
-            strokeOpacity={0.06}
+            strokeOpacity={0.05}
             strokeWidth={1.5}
           />
           <path
-            d="M0,220 C 220,260 320,180 520,210 S 820,260 1000,200"
+            d="M0,120 C 240,180 340,80 540,130 S 800,60 1000,100"
             fill="none"
-            stroke="var(--color-accent)"
-            strokeOpacity={0.5}
+            stroke="white"
+            strokeOpacity={0.04}
             strokeWidth={1.5}
-            pathLength={100}
-            strokeDasharray="10 400"
-            className="[animation:hero-curve-travel_7s_linear_infinite]"
           />
         </svg>
-      </div>
-
-      <div
-        ref={dotsRef}
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 transition-transform duration-500 ${EASE}`}
-      >
         {bgDots.map((dot, i) => (
           <span
             key={i}
             className="absolute h-1 w-1 animate-pulse rounded-full bg-accent/50"
-            style={{ left: dot.left, top: dot.top, animationDelay: `${dot.delay}s`, animationDuration: "3s" }}
+            style={{ left: dot.left, top: dot.top, animationDelay: `${dot.delay}s`, animationDuration: "3.4s" }}
           />
         ))}
       </div>
@@ -299,18 +170,134 @@ export function Stats() {
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/stats:opacity-100"
         style={{
           background:
-            "radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgba(124,58,237,0.16), transparent 70%)",
+            "radial-gradient(560px circle at var(--mx, 50%) var(--my, 50%), rgba(139,92,246,0.14), transparent 70%)",
         }}
       />
 
       <Container className="relative">
-        <p className="mb-10 text-center text-sm font-semibold uppercase tracking-wide text-primary-foreground/50">
+        <p className="text-center text-sm font-semibold uppercase tracking-wide text-primary-foreground/50">
           Unsere Reichweite in Zahlen
         </p>
-        <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-          {stats.map((stat, index) => (
-            <StatCard key={stat.label} {...stat} index={index} pulse={pulseIndex === index} />
-          ))}
+
+        <div
+          ref={revealRef}
+          className="relative mx-auto mt-10 min-h-[420px] w-full max-w-4xl sm:min-h-[460px] lg:min-h-[560px]"
+        >
+          <div ref={linesRef} className="pointer-events-none absolute inset-0">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full" aria-hidden>
+              {edges.map((edge, i) => {
+                const from = findNode(edge.from);
+                const to = findNode(edge.to);
+                const state = edgeState(edge, hovered);
+                return (
+                  <g key={i}>
+                    <line
+                      x1={from.x}
+                      y1={from.y}
+                      x2={to.x}
+                      y2={to.y}
+                      vectorEffect="non-scaling-stroke"
+                      stroke="var(--color-accent)"
+                      strokeOpacity={state === "active" ? 0.85 : state === "dim" ? 0.08 : 0.28}
+                      strokeWidth={state === "active" ? 1.6 : 1}
+                      pathLength={100}
+                      strokeDasharray={100}
+                      strokeDashoffset={revealed ? 0 : 100}
+                      className={`transition-all duration-[900ms] ${EASE}`}
+                      style={{ transitionDelay: revealed ? "450ms" : "0ms" }}
+                    />
+                    <line
+                      x1={from.x}
+                      y1={from.y}
+                      x2={to.x}
+                      y2={to.y}
+                      vectorEffect="non-scaling-stroke"
+                      stroke="white"
+                      strokeOpacity={state === "dim" ? 0.12 : 0.55}
+                      strokeWidth={1}
+                      pathLength={100}
+                      strokeDasharray="5 400"
+                      style={{
+                        animation: revealed
+                          ? `hero-curve-travel ${edge.duration}s linear ${1.8 + edge.delay}s infinite`
+                          : "none",
+                      }}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          <div ref={outerRef} className="pointer-events-none absolute inset-0">
+            {nodes
+              .filter((n) => n.key !== "center")
+              .map((node, i) => {
+                const state = nodeState(node.key, hovered);
+                return (
+                  <div
+                    key={node.key}
+                    onMouseEnter={() => setHovered(node.key)}
+                    onMouseLeave={() => setHovered(null)}
+                    className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
+                    style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                  >
+                    <span
+                      className={`rounded-full bg-accent transition-all duration-500 ${EASE} ${
+                        revealed ? "h-2.5 w-2.5 opacity-100" : "h-2.5 w-2.5 scale-0 opacity-0"
+                      } ${state === "active" ? "scale-125 shadow-[0_0_0_8px_rgba(139,92,246,0.25)]" : ""} ${
+                        state === "dim" ? "opacity-30" : ""
+                      }`}
+                      style={{ transitionDelay: revealed ? `${i * 120}ms` : "0ms" }}
+                    />
+                    <div
+                      className={`flex flex-col items-center gap-1 transition-all duration-500 ${EASE} ${
+                        revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-90 opacity-0"
+                      } ${state === "dim" ? "opacity-40" : ""}`}
+                      style={{ transitionDelay: revealed ? `${1100 + i * 100}ms` : "0ms" }}
+                    >
+                      <span className="text-xl font-extrabold tracking-tight text-primary-foreground tabular-nums sm:text-2xl lg:text-4xl">
+                        {node.value}
+                      </span>
+                      <span className="max-w-[6.5rem] text-[11px] leading-snug text-primary-foreground/60 sm:max-w-[8rem] sm:text-xs lg:max-w-[10rem] lg:text-sm">
+                        {node.label}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+
+          <div ref={centerRef} className="pointer-events-none absolute inset-0">
+            {(() => {
+              const center = findNode("center");
+              const state = nodeState("center", hovered);
+              return (
+                <div
+                  onMouseEnter={() => setHovered("center")}
+                  onMouseLeave={() => setHovered(null)}
+                  className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
+                  style={{ left: `${center.x}%`, top: `${center.y}%` }}
+                >
+                  <div
+                    className={`flex flex-col items-center gap-2 transition-all duration-700 ${EASE} ${
+                      revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-3 scale-90 opacity-0"
+                    }`}
+                    style={{ transitionDelay: revealed ? "1250ms" : "0ms" }}
+                  >
+                    <span
+                      className={`text-4xl font-extrabold tracking-tight text-primary-foreground tabular-nums transition-all duration-500 sm:text-6xl lg:text-7xl ${
+                        state === "active" ? "drop-shadow-[0_0_18px_rgba(139,92,246,0.45)]" : ""
+                      }`}
+                    >
+                      {center.value}
+                    </span>
+                    <span className="text-sm text-primary-foreground/60 sm:text-base">{center.label}</span>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
         </div>
       </Container>
     </section>
