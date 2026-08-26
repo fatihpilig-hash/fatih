@@ -200,7 +200,7 @@ export function HeroVisual() {
                   strokeLinecap="round"
                   pathLength={100}
                   strokeDasharray="6 400"
-                  className="[animation:hero-curve-travel_5s_linear_infinite]"
+                  className="[animation:hero-curve-travel-full_5s_linear_infinite]"
                   style={{ animationDelay: "1.8s" }}
                 />
                 {cursorPoint && (
