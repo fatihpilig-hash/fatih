@@ -3,18 +3,19 @@
 import { useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from "react";
 import { Container } from "@/components/ui/Container";
 import { useInView } from "@/lib/useInView";
+import { useCountUp } from "@/lib/useCountUp";
 
 type NodeKey = "center" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 
 // Center = the overall outcome metric; the four platform facts sit
 // around it grouped by platform (TikTok on top, Instagram on bottom)
 // so the layout reads as a hierarchy instead of an arbitrary order.
-const nodes: { key: NodeKey; value: string; label: string; x: number; y: number }[] = [
-  { key: "center", value: "40 Tsd.+", label: "Abonnenten generiert", x: 50, y: 50 },
-  { key: "topLeft", value: "500+", label: "TikTok-Kurzvideos produziert", x: 22, y: 20 },
-  { key: "topRight", value: "20 Mio.+", label: "Aufrufe auf TikTok", x: 78, y: 20 },
-  { key: "bottomLeft", value: "500+", label: "Instagram-Kurzvideos produziert", x: 22, y: 80 },
-  { key: "bottomRight", value: "22 Mio.+", label: "Aufrufe auf Instagram", x: 78, y: 80 },
+const nodes: { key: NodeKey; target: number; decimals: number; suffix: string; label: string; x: number; y: number }[] = [
+  { key: "center", target: 40, decimals: 0, suffix: " Tsd.+", label: "Abonnenten generiert", x: 50, y: 50 },
+  { key: "topLeft", target: 500, decimals: 0, suffix: "+", label: "TikTok-Kurzvideos produziert", x: 22, y: 20 },
+  { key: "topRight", target: 20, decimals: 0, suffix: " Mio.+", label: "Aufrufe auf TikTok", x: 78, y: 20 },
+  { key: "bottomLeft", target: 500, decimals: 0, suffix: "+", label: "Instagram-Kurzvideos produziert", x: 22, y: 80 },
+  { key: "bottomRight", target: 22, decimals: 0, suffix: " Mio.+", label: "Aufrufe auf Instagram", x: 78, y: 80 },
 ];
 
 // Distinct, fixed durations/delays per edge (not randomized at runtime)
@@ -56,6 +57,111 @@ function nodeState(key: NodeKey, hovered: NodeKey | null): "default" | "active" 
   if (!hovered) return "default";
   if (hovered === "center" || key === "center" || key === hovered) return "active";
   return "dim";
+}
+
+function formatNumber(value: number, decimals: number) {
+  return value.toLocaleString("de-DE", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
+
+function OuterNode({
+  node,
+  index,
+  state,
+  revealed,
+  onHoverStart,
+  onHoverEnd,
+}: {
+  node: (typeof nodes)[number];
+  index: number;
+  state: "default" | "active" | "dim";
+  revealed: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}) {
+  const countRef = useRef<HTMLSpanElement>(null);
+  const count = useCountUp(countRef, node.target);
+
+  return (
+    <div
+      onMouseEnter={onHoverStart}
+      onMouseLeave={onHoverEnd}
+      className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
+      style={{ left: `${node.x}%`, top: `${node.y}%` }}
+    >
+      <span
+        className={`rounded-full bg-accent transition-all duration-500 ${EASE} ${
+          revealed ? "h-2.5 w-2.5 opacity-100" : "h-2.5 w-2.5 scale-0 opacity-0"
+        } ${state === "active" ? "scale-125 shadow-[0_0_0_8px_rgba(139,92,246,0.25)]" : ""} ${
+          state === "dim" ? "opacity-30" : ""
+        }`}
+        style={{ transitionDelay: revealed ? `${index * 100}ms` : "0ms" }}
+      />
+      <div
+        className={`flex flex-col items-center gap-1 transition-all duration-500 ${EASE} ${
+          revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-90 opacity-0"
+        } ${state === "dim" ? "opacity-40" : ""}`}
+        style={{ transitionDelay: revealed ? `${500 + index * 80}ms` : "0ms" }}
+      >
+        <span
+          ref={countRef}
+          className="text-xl font-extrabold tracking-tight text-primary-foreground tabular-nums sm:text-2xl lg:text-4xl"
+        >
+          {formatNumber(count, node.decimals)}
+          {node.suffix}
+        </span>
+        <span className="max-w-[6.5rem] text-[11px] leading-snug text-primary-foreground/60 sm:max-w-[8rem] sm:text-xs lg:max-w-[10rem] lg:text-sm">
+          {node.label}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function CenterNode({
+  center,
+  state,
+  revealed,
+  onHoverStart,
+  onHoverEnd,
+}: {
+  center: (typeof nodes)[number];
+  state: "default" | "active" | "dim";
+  revealed: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}) {
+  const countRef = useRef<HTMLSpanElement>(null);
+  const count = useCountUp(countRef, center.target);
+
+  return (
+    <div
+      onMouseEnter={onHoverStart}
+      onMouseLeave={onHoverEnd}
+      className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
+      style={{ left: `${center.x}%`, top: `${center.y}%` }}
+    >
+      <div
+        className={`flex flex-col items-center gap-2 transition-all duration-700 ${EASE} ${
+          revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-3 scale-90 opacity-0"
+        }`}
+        style={{ transitionDelay: revealed ? "600ms" : "0ms" }}
+      >
+        <span
+          ref={countRef}
+          className={`text-4xl font-extrabold tracking-tight text-primary-foreground tabular-nums transition-all duration-500 sm:text-6xl lg:text-7xl ${
+            state === "active" ? "drop-shadow-[0_0_18px_rgba(139,92,246,0.45)]" : ""
+          }`}
+        >
+          {formatNumber(count, center.decimals)}
+          {center.suffix}
+        </span>
+        <span className="text-sm text-primary-foreground/60 sm:text-base">{center.label}</span>
+      </div>
+    </div>
+  );
 }
 
 export function Stats() {
@@ -209,7 +315,7 @@ export function Stats() {
                       strokeDasharray={100}
                       strokeDashoffset={revealed ? 0 : 100}
                       className={`transition-all duration-[900ms] ${EASE}`}
-                      style={{ transitionDelay: revealed ? "450ms" : "0ms" }}
+                      style={{ transitionDelay: revealed ? "250ms" : "0ms" }}
                     />
                     <line
                       x1={from.x}
@@ -237,71 +343,27 @@ export function Stats() {
           <div ref={outerRef} className="pointer-events-none absolute inset-0">
             {nodes
               .filter((n) => n.key !== "center")
-              .map((node, i) => {
-                const state = nodeState(node.key, hovered);
-                return (
-                  <div
-                    key={node.key}
-                    onMouseEnter={() => setHovered(node.key)}
-                    onMouseLeave={() => setHovered(null)}
-                    className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
-                    style={{ left: `${node.x}%`, top: `${node.y}%` }}
-                  >
-                    <span
-                      className={`rounded-full bg-accent transition-all duration-500 ${EASE} ${
-                        revealed ? "h-2.5 w-2.5 opacity-100" : "h-2.5 w-2.5 scale-0 opacity-0"
-                      } ${state === "active" ? "scale-125 shadow-[0_0_0_8px_rgba(139,92,246,0.25)]" : ""} ${
-                        state === "dim" ? "opacity-30" : ""
-                      }`}
-                      style={{ transitionDelay: revealed ? `${i * 120}ms` : "0ms" }}
-                    />
-                    <div
-                      className={`flex flex-col items-center gap-1 transition-all duration-500 ${EASE} ${
-                        revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-90 opacity-0"
-                      } ${state === "dim" ? "opacity-40" : ""}`}
-                      style={{ transitionDelay: revealed ? `${1100 + i * 100}ms` : "0ms" }}
-                    >
-                      <span className="text-xl font-extrabold tracking-tight text-primary-foreground tabular-nums sm:text-2xl lg:text-4xl">
-                        {node.value}
-                      </span>
-                      <span className="max-w-[6.5rem] text-[11px] leading-snug text-primary-foreground/60 sm:max-w-[8rem] sm:text-xs lg:max-w-[10rem] lg:text-sm">
-                        {node.label}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+              .map((node, i) => (
+                <OuterNode
+                  key={node.key}
+                  node={node}
+                  index={i}
+                  state={nodeState(node.key, hovered)}
+                  revealed={revealed}
+                  onHoverStart={() => setHovered(node.key)}
+                  onHoverEnd={() => setHovered(null)}
+                />
+              ))}
           </div>
 
           <div ref={centerRef} className="pointer-events-none absolute inset-0">
-            {(() => {
-              const center = findNode("center");
-              const state = nodeState("center", hovered);
-              return (
-                <div
-                  onMouseEnter={() => setHovered("center")}
-                  onMouseLeave={() => setHovered(null)}
-                  className="pointer-events-auto absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center"
-                  style={{ left: `${center.x}%`, top: `${center.y}%` }}
-                >
-                  <div
-                    className={`flex flex-col items-center gap-2 transition-all duration-700 ${EASE} ${
-                      revealed ? "translate-y-0 scale-100 opacity-100" : "translate-y-3 scale-90 opacity-0"
-                    }`}
-                    style={{ transitionDelay: revealed ? "1250ms" : "0ms" }}
-                  >
-                    <span
-                      className={`text-4xl font-extrabold tracking-tight text-primary-foreground tabular-nums transition-all duration-500 sm:text-6xl lg:text-7xl ${
-                        state === "active" ? "drop-shadow-[0_0_18px_rgba(139,92,246,0.45)]" : ""
-                      }`}
-                    >
-                      {center.value}
-                    </span>
-                    <span className="text-sm text-primary-foreground/60 sm:text-base">{center.label}</span>
-                  </div>
-                </div>
-              );
-            })()}
+            <CenterNode
+              center={findNode("center")}
+              state={nodeState("center", hovered)}
+              revealed={revealed}
+              onHoverStart={() => setHovered("center")}
+              onHoverEnd={() => setHovered(null)}
+            />
           </div>
         </div>
       </Container>
