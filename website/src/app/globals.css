@@ -137,6 +137,19 @@ body {
   }
 }
 
+/* Same trick as hero-curve-travel, but the dash (6 units wide, see
+   HeroVisual.tsx's "6 400" dasharray) travels all the way to the
+   curve's actual endpoint (offset -94, so its leading edge lands
+   exactly on path position 100) instead of stopping partway through. */
+@keyframes hero-curve-travel-full {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: -94;
+  }
+}
+
 /* Legal page body copy (Impressum, Datenschutz): plain semantic HTML
    styled here so the page files can stay pure content. */
 .legal-content h2 {
