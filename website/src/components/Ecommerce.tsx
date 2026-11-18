@@ -87,7 +87,7 @@ export function Ecommerce() {
               className="inline-block h-[1.875rem] w-auto align-middle object-contain sm:h-9 lg:h-11"
             />
           }
-          description="Wir erstellen professionelle und verkaufsoptimierte Online-Shops, die nicht nur gut aussehen, sondern Besucher in Kunden verwandeln. Individuelles Design, benutzerfreundliche Navigation und eine optimale technische Einrichtung."
+          description="Wir erstellen professionelle und verkaufsoptimierte Online-Shops, die Besucher in Kunden verwandeln. Individuelles Design, benutzerfreundliche Navigation und eine optimale technische Einrichtung."
         />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
