@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { LinkButton } from "@/components/ui/Button";
@@ -77,6 +78,15 @@ export function Ecommerce() {
       <Container className="flex flex-col gap-12">
         <SectionHeading
           title="E-Commerce & Online-Shops"
+          titleExtra={
+            <Image
+              src="/platform-icons/icon-shopify.png"
+              alt="Shopify"
+              width={128}
+              height={128}
+              className="inline-block h-[1.875rem] w-auto align-middle object-contain sm:h-9 lg:h-11"
+            />
+          }
           description="Wir erstellen professionelle und verkaufsoptimierte Online-Shops, die nicht nur gut aussehen, sondern Besucher in Kunden verwandeln. Individuelles Design, benutzerfreundliche Navigation und eine optimale technische Einrichtung."
         />
 
