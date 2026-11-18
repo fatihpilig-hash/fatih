@@ -76,8 +76,7 @@ export function Ecommerce() {
     <section id="online-shops" className="py-20 sm:py-24">
       <Container className="flex flex-col gap-12">
         <SectionHeading
-          eyebrow="E-Commerce & Online-Shops"
-          title="Online-Shop-Erstellung"
+          title="E-Commerce & Online-Shops"
           description="Wir erstellen professionelle und verkaufsoptimierte Online-Shops, die nicht nur gut aussehen, sondern Besucher in Kunden verwandeln. Individuelles Design, benutzerfreundliche Navigation und eine optimale technische Einrichtung."
         />
 
