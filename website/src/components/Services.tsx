@@ -8,6 +8,7 @@ import {
   Bot,
   Megaphone,
   Target,
+  ShoppingBag,
   Check,
   LucideIcon,
 } from "lucide-react";
@@ -85,6 +86,19 @@ const services = [
       "Mitarbeitergewinnung über Social Media",
       "Recruiting-Kampagnen",
       "Reichweitenkampagnen",
+    ],
+  },
+  {
+    icon: ShoppingBag,
+    title: "E-Commerce & Online-Shops",
+    description:
+      "Wir erstellen professionelle und verkaufsoptimierte Online-Shops, die nicht nur gut aussehen, sondern Besucher in Kunden verwandeln. Individuelles Design, benutzerfreundliche Navigation und eine optimale technische Einrichtung.",
+    points: [
+      "Design & Branding",
+      "Produkte & Shop-Einrichtung",
+      "Online-Marketing & Werbekampagnen",
+      "Laufende Shop-Betreuung",
+      "Optimierung & Wachstum",
     ],
   },
 ];
