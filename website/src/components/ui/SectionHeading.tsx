@@ -1,16 +1,18 @@
 "use client";
 
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { useReveal } from "@/lib/useReveal";
 
 export function SectionHeading({
   eyebrow,
   title,
+  titleExtra,
   description,
   align = "center",
 }: {
   eyebrow?: string;
   title: string;
+  titleExtra?: ReactNode;
   description?: string;
   align?: "center" | "left";
 }) {
@@ -31,6 +33,7 @@ export function SectionHeading({
       )}
       <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]">
         {title}
+        {titleExtra && <> {titleExtra}</>}
       </h2>
       {description && (
         <p className="text-lg leading-relaxed text-muted-foreground">

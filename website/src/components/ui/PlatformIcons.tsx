@@ -7,6 +7,7 @@ const platforms = [
   { name: "TikTok", src: "/platform-icons/icon-tiktok.png" },
   { name: "YouTube", src: "/platform-icons/icon-youtube.png" },
   { name: "LinkedIn", src: "/platform-icons/icon-linkedin.png" },
+  { name: "Shopify", src: "/platform-icons/icon-shopify.png" },
 ];
 
 // Rendered twice back-to-back so the track can loop seamlessly at -50%.
